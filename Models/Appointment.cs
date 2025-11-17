@@ -19,5 +19,7 @@ namespace ProductServicesManagementSystem.Models
         public DateTime CreatedAt { get; set; }
         public Service Service { get; set; }
         public User Staff { get; set; }
+        public Customer Customer { get; set; }
+
     }
 }

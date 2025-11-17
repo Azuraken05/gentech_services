@@ -1,0 +1,90 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style TargetType="DatePicker" x:Key="OutlineDatePicker">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DatePicker">
+                    <Grid>
+                        <Border x:Name="Border"
+                                Background="White"
+                                BorderBrush="#DDE1E6"
+                                BorderThickness="1"
+                                CornerRadius="4"
+                                Padding="4">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox x:Name="PART_TextBox"
+                                         Grid.Column="0"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         IsEnabled="False"
+                                         VerticalAlignment="Center"
+                                         Text="{Binding Path=SelectedDate, 
+                                                RelativeSource={RelativeSource TemplatedParent}, 
+                                                StringFormat='dd/MM/yyyy'}"/>
+
+                                <TextBlock x:Name="Placeholder"
+                                           Grid.Column="0"
+                                           Text="dd/mm/yyyy"
+                                           Foreground="Black"
+                                           FontWeight="SemiBold"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           VerticalAlignment="Center"
+                                           Margin="2,0,0,0"
+                                           IsHitTestVisible="False"
+                                           Visibility="Collapsed"/>
+
+                                <Button x:Name="PART_Button"
+                                        Grid.Column="1"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Width="20"
+                                        Focusable="False">
+                                    <Path Data="M 0 0 L 4 4 L 8 0 Z"
+                                          Fill="Gray"
+                                          HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                             Margin="0,0,8,0"/>
+                                </Button>
+                            </Grid>
+                        </Border>
+
+                        <Popup x:Name="PART_Popup"
+                               AllowsTransparency="True"
+                               Placement="Bottom"
+                               PlacementTarget="{Binding ElementName=Border}"
+                               StaysOpen="False">
+                            <Border Background="White"
+                                    BorderBrush="#DDE1E6"
+                                    BorderThickness="1"
+                                    CornerRadius="4"
+                                    Padding="4">
+                                <Calendar x:Name="PART_Calendar"
+                                           FontSize="{TemplateBinding FontSize}"
+                                          SelectedDate="{Binding Path=SelectedDate, 
+                                                         RelativeSource={RelativeSource TemplatedParent}}"
+                                          />
+                            </Border>
+                        </Popup>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="SelectedDate" Value="{x:Null}">
+                            <Setter TargetName="Placeholder" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#4A90E2"/>
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
