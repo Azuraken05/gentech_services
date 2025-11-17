@@ -8,10 +8,26 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-    <ItemGroup>
-		<Resource Include="Resources\Fonts\Inter 18pt.ttf">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
+  <ItemGroup>
+    <None Remove="Resources\Assets\Icons\account_circle.png" />
+    <None Remove="Resources\Assets\Icons\dashboard_customize.png" />
+    <None Remove="Resources\Assets\Icons\home_repair_service.png" />
+    <None Remove="Resources\Assets\Icons\logo.png" />
+    <None Remove="Resources\Assets\Icons\Product.png" />
+    <None Remove="Resources\Assets\Images\profileImage.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Assets\Icons\account_circle.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Assets\Icons\dashboard_customize.png" />
+    <Resource Include="Resources\Assets\Icons\home_repair_service.png" />
+    <Resource Include="Resources\Assets\Icons\logo.png" />
+    <Resource Include="Resources\Assets\Icons\Product.png" />
+    <Resource Include="Resources\Assets\Images\profileImage.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

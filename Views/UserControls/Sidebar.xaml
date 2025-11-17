@@ -11,9 +11,9 @@
     <UserControl.Resources>
         <Style x:Key="SidebarButtonStyle" TargetType="local:IconButton">
             <Setter Property="Background" Value="Black"/>
-            <Setter Property="Padding" Value="10,0,0,0"/>
+            <Setter Property="Padding" Value="20,0,0,0"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Margin" Value="40,0"/>
+
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -24,8 +24,7 @@
 
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    
-                    <Setter Property="Foreground" Value="#0000FF"/>
+                    <Setter Property="Background" Value="#292727"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -34,16 +33,16 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Padding" Value="10,0,0,0"/>
-            <Setter Property="Margin" Value="40,0,40,0"/>
+            <Setter Property="Padding" Value="20,0,0,0"/>
+
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontFamily" Value="Inter"/>
             <Setter Property="BorderThickness" Value="0"/>
-            
+
 
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    
+
                     <Setter Property="Foreground" Value="#0000FF"/>
                 </Trigger>
             </Style.Triggers>
@@ -53,8 +52,8 @@
 
     <DockPanel Background="Black" >
 
-        
-        <Image DockPanel.Dock="Top"  Stretch="Fill" Width="240" Height="106" Source="/Resources/Assets/Icons/logo.png" Margin="40,40"></Image>
+
+        <Image DockPanel.Dock="Top"  Stretch="Fill" Width="Auto" Height="105" Source="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/logo.png" Margin="40,40"></Image>
 
         <Border DockPanel.Dock="Top" Padding="20,12" Background="#33FFFFFF" CornerRadius="30" HorizontalAlignment="Center" Margin="0,0,0,100" >
             <Grid  DockPanel.Dock="Top" HorizontalAlignment="Center" >
@@ -65,7 +64,7 @@
                 <Border Grid.Column="0" Width="32px" Height="32px" Margin="0,0,10,0" Background="White" CornerRadius="100" BorderThickness="1" BorderBrush="White">
                     <Ellipse>
                         <Ellipse.Fill>
-                            <ImageBrush ImageSource="/Resources/Assets/Images/profile image.png"/>
+                            <ImageBrush ImageSource="pack://application:,,,/gentech_services;component/Resources/Assets/Images/profileImage.png"/>
                         </Ellipse.Fill>
                     </Ellipse>
                 </Border>
@@ -76,28 +75,26 @@
                 </StackPanel>
             </Grid>
         </Border>
-        
+
 
         <StackPanel Orientation="Vertical"  DockPanel.Dock="Top">
-            
-            
-            <local:IconButton  Text="Dashboard" Icon="/Resources/Assets/Icons/dashboard_customize.png"  Click="Dashboard_Click"  Style="{StaticResource SidebarButtonStyle}"/>
-            <local:IconButton  Text="Services" Icon="/Resources/Assets/Icons/home_repair_service.png"  Click="Services_Click"  Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
-            <StackPanel x:Name="ServiceSubButtons" Orientation="Vertical" HorizontalAlignment="Stretch" Visibility="Visible">
+            <local:IconButton  Text="Dashboard" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/dashboard_customize.png"  Click="Dashboard_Click"  Style="{StaticResource SidebarButtonStyle}"/>
+            <local:IconButton  Text="Services" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/home_repair_service.png"  Click="Services_Click"  Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
+            <StackPanel x:Name="ServicesSubButtons" Orientation="Vertical" HorizontalAlignment="Stretch" Visibility="Visible">
                 <local:IconButton  Text="Service Management" Click="ServiceManagement_Click" Style="{StaticResource SidebarSubButtonStyle}"/>
                 <local:IconButton  Text="Service Orders"  Click="ServiceOrders_Click"  Style="{StaticResource SidebarSubButtonStyle}"/>
             </StackPanel>
-            <local:IconButton  Text="Products" Icon="/Resources/Assets/Icons/Product.png"  Click="Products_Click"  Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
+            <local:IconButton  Text="Products" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/Product.png"  Click="Products_Click"  Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
             <StackPanel x:Name="ProductsSubButtons" Orientation="Vertical" HorizontalAlignment="Stretch" Visibility="Visible">
                 <local:IconButton  Text="Inventory Management" Click="InventoryManagement_Click" Style="{StaticResource SidebarSubButtonStyle}"/>
                 <local:IconButton  Text="Product Orders"  Click="ProductOrders_Click"  Style="{StaticResource SidebarSubButtonStyle}"/>
             </StackPanel>
-            <local:IconButton  Text="Users" Icon="/Resources/Assets/Icons/Product.png"  Click="Users_Click"  Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
+            <local:IconButton  Text="Users" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/Product.png"  Click="Users_Click"  Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
         </StackPanel>
 
         <StackPanel Orientation="Vertical" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,0,0,50" >
-            <local:IconButton  Text="Logout" Icon="/Resources/Assets/Icons/account_circle.png" Click="Logout_Click" Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
-            
+            <local:IconButton  Text="Logout" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/account_circle.png" Click="Logout_Click" Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
+
         </StackPanel>
     </DockPanel>
 

@@ -57,9 +57,6 @@ namespace gentech_services.Views.UserControls
             add => AddHandler(ClickEvent, value);
             remove => RemoveHandler(ClickEvent, value);
         }
-        private void BorderContainer_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            RaiseEvent(new RoutedEventArgs(ClickEvent));
-        }
+        
     }
 }
