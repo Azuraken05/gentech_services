@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:gentech_services"
+        xmlns:control="clr-namespace:gentech_services.Views.UserControls"
+        xmlns:pages="clr-namespace:gentech_services.Views.Pages"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <pages:ServiceOrderPage Grid.Column="1" Margin="16"/>
     </Grid>
 </Window>

@@ -7,7 +7,6 @@
              mc:Ignorable="d" 
              x:Name="root">
     <Border x:Name="BorderContainer"
-        Padding="0,"
         Background="{Binding Background, ElementName=root}"
         MouseLeftButtonUp="BorderContainer_MouseLeftButtonUp">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
