@@ -24,7 +24,7 @@
         </Style>
     </UserControl.Resources>
     
-    <Border x:Name="BorderContainer" Padding="20" Height="100" MinWidth="200" Width="220" Margin="0,10,10,10" Style="{StaticResource CardStyle}">
+    <Border x:Name="BorderContainer" Padding="20" Height="100" MinWidth="200" Width="220" Margin="0,10,10,0" Style="{StaticResource CardStyle}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
