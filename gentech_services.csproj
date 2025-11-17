@@ -8,6 +8,7 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+
   <ItemGroup>
     <None Remove="Resources\Assets\Icons\account_circle.png" />
     <None Remove="Resources\Assets\Icons\dashboard_customize.png" />
