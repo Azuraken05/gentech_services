@@ -6,20 +6,20 @@
         <Setter Property="BorderBrush" Value="#DDE1E6"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="4"/>
+        <Setter Property="Tag" Value="Select an option"/>
         <Setter Property="Effect" Value="{StaticResource BorderShadow}"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
-                     
                         <Border x:Name="Border"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="4"/>
-                        <TextBlock Text="Select an option" 
-                                        Foreground="Gray" 
+                        <TextBlock Text="{TemplateBinding Tag}"
+                                        Foreground="Black" 
                                         VerticalAlignment="Center"
                                         Visibility="Hidden"
                                         Margin="8,0,8,0"

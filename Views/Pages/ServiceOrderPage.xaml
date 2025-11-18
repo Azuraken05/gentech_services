@@ -6,42 +6,57 @@
              xmlns:local="clr-namespace:gentech_services.Views.Pages"
              xmlns:control="clr-namespace:gentech_services.Views.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="750" d:DesignWidth="850" Background="White">
+             d:DesignHeight="1050" d:DesignWidth="850" Background="White">
     <UserControl.Resources>
-        <Style TargetType="control:RichTextBox">
-            <Setter Property="Margin" Value="0,0,0,3"/>
+        <Style TargetType="TextBox" 
+               BasedOn="{StaticResource OutlineTextBox}">
             <Setter Property="Height" Value="45"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
         </Style>
     </UserControl.Resources>
-    <StackPanel>
-        
-        <TextBlock Text="Set Appointment" FontWeight="SemiBold" FontSize="28"/>
-        <control:RichTextBox Placeholder="First Name"/>
-        <control:RichTextBox Placeholder="Last Name"/>
-        <control:RichTextBox Placeholder="Email Address"/>
-        <control:RichTextBox Placeholder="Phone Number"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="12" MaxWidth="800">
+            <TextBlock Text="Set Appointment" FontWeight="SemiBold" 
+                       FontSize="28" Margin="0,0,0,12"/>
+            <TextBox Tag="First Name"/>
+            <TextBox Tag="Last Name"/>
+            <TextBox Tag="Email"/>
+    
 
-        <ComboBox Style="{StaticResource OutlineComboBox}" 
-                  Height="45" 
-                  FontSize="16" Margin="0,0,0,3">
-            <ComboBoxItem>Item 1</ComboBoxItem>
-            <ComboBoxItem>Item 2</ComboBoxItem>
-            <ComboBoxItem>Item 3</ComboBoxItem>
-        </ComboBox >
-        <DatePicker Style="{StaticResource OutlineDatePicker}" 
-                    FontSize="16" Margin="0,0,0,3"/>
-
-        <control:RichTextBox Placeholder="Issue Description" 
-                             Height="100" Margin="0,0,0,12"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Clear" Margin="0,0,3,0" 
-                    Height="35" Background="White"
-                    Style="{StaticResource OutlineButton}"
-                    Tag="4"/>
-            <Button Content="Set Appointment"
-                     Style="{StaticResource OutlineButton}"
-                    Background="#0000FF" Foreground="White"
-                    Tag="4"/>
+            <ComboBox Style="{StaticResource OutlineComboBox}" 
+              Height="45"
+              Tag="Service Type"
+              FontSize="18" Margin="0,0,0,8">
+                <ComboBoxItem>Item 1</ComboBoxItem>
+                <ComboBoxItem>Item 2</ComboBoxItem>
+                <ComboBoxItem>Item 3</ComboBoxItem>
+            </ComboBox>
+            <DatePicker Style="{StaticResource OutlineDatePicker}" 
+                FontSize="18" Margin="0,0,0,8" Height="45"/>
+            <TextBox Tag="Issue Description" Height="100" 
+                     Margin="0,0,0,12" 
+                     Style="{StaticResource OutlineTextBoxMultiline}"
+                     FontSize="18"/>
+          
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Clear" Margin="0,0,8,0" 
+                Height="35" Background="White"
+                Width="120"
+                Style="{StaticResource OutlineButton}"
+                Tag="4"/>
+                <Button Content="Set Appointment"
+                Width="200"
+                
+                 Style="{StaticResource OutlineButton}"
+                Background="#0000FF" Foreground="White"
+                Tag="4"/>
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+        <control:ServiceOrdersTable Grid.Row="1" MaxWidth="830"/>
+    </Grid>
 </UserControl>

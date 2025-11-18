@@ -7,13 +7,14 @@
         xmlns:control="clr-namespace:gentech_services.Views.UserControls"
         xmlns:pages="clr-namespace:gentech_services.Views.Pages"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1050" Width="1200">
+       
+        Title="MainWindow" Height="1050" Width="1200" WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="341*"/>
         </Grid.ColumnDefinitions>
         <control:Sidebar/>
-        <pages:ServiceOrderPage Grid.Column="1" Margin="16"/>
+        <pages:ServiceOrderPage Grid.Column="1" Margin="16,16,16,16" Grid.ColumnSpan="4"/>
     </Grid>
 </Window>
