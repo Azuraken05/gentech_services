@@ -13,12 +13,12 @@
                 <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
-            <Image Grid.Column="0" Source="/Resources/Assets/Icons/icnSearch.png"  Width="14" Height="14"
+
+            <Image Grid.Column="0" Source="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/icnSearch.png"  Width="14" Height="14"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
                 IsHitTestVisible="False"/>
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" Margin="5,0,0,0">
                 <TextBox  Background="#F3F3F5" Name="txtSearch" Padding="30,0,5,0" BorderThickness="0"/>
                 <TextBlock Text="Search by name, category, or supplier..." Foreground="#717182" IsHitTestVisible="False" FontSize="12">
 
