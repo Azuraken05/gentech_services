@@ -40,37 +40,37 @@
     <Style x:Key="KebabMenuButton" TargetType="Button">
         <Setter Property="Width" Value="30"/>
         <Setter Property="Height" Value="30"/>
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="#E8E8E8"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}"
-                        CornerRadius="3"
+                        CornerRadius="5"
                         BorderBrush="Black"
                          BorderThickness="{TemplateBinding BorderThickness}"
                         Padding="3">
                         <Viewbox Width="20" Height="20">
                             <Canvas Width="24" Height="24">
-                                <Ellipse Canvas.Left="10" Canvas.Top="4" 
-                                     Width="4" Height="4" 
+                                <Ellipse Canvas.Left="10" Canvas.Top="4"
+                                     Width="4" Height="4"
                                      Fill="#525252"/>
-                                <Ellipse Canvas.Left="10" Canvas.Top="10" 
-                                     Width="4" Height="4" 
+                                <Ellipse Canvas.Left="10" Canvas.Top="10"
+                                     Width="4" Height="4"
                                      Fill="#525252"/>
-                                <Ellipse Canvas.Left="10" Canvas.Top="16" 
-                                     Width="4" Height="4" 
+                                <Ellipse Canvas.Left="10" Canvas.Top="16"
+                                     Width="4" Height="4"
                                      Fill="#525252"/>
                             </Canvas>
                         </Viewbox>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#F0F0F0"/>
+                            <Setter Property="Background" Value="#D0D0D0"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="#E0E0E0"/>
+                            <Setter Property="Background" Value="#C0C0C0"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

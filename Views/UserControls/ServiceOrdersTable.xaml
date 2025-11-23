@@ -1,17 +1,24 @@
 ﻿<UserControl x:Class="gentech_services.Views.UserControls.ServiceOrdersTable"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:conv="clr-namespace:gentech_services.Converters"
              xmlns:local="clr-namespace:gentech_services.Views.UserControls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="850" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:StatusToCancelVisibilityConverter x:Key="StatusToCancelVisibilityConverter"/>
+        <conv:StatusToSetOngoingVisibilityConverter x:Key="StatusToSetOngoingVisibilityConverter"/>
+        <conv:StatusToSetCompletedVisibilityConverter x:Key="StatusToSetCompletedVisibilityConverter"/>
+        <conv:StatusToEditVisibilityConverter x:Key="StatusToEditVisibilityConverter"/>
+    </UserControl.Resources>
     <Border CornerRadius="14" Background="White" ClipToBounds="True">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Border Background="#EFEFEF" Padding="12,4,12,4" CornerRadius="8,8,0,0">
@@ -22,13 +29,20 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Service Orders" VerticalAlignment="Center" 
                    FontWeight="SemiBold" FontSize="24"/>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" 
+                    <StackPanel Grid.Column="1" Orientation="Horizontal"
                     HorizontalAlignment="Right">
-                        <ComboBox Style="{StaticResource OutlineComboBox}" 
-                      Width="120" Margin="0,0,8,0" Tag="All Statuses"
-                      Height="30"/>
+                        <ComboBox Style="{StaticResource OutlineComboBox}"
+                      Width="120" Margin="0,0,8,0"
+                      Height="30"
+                      FontSize="11"
+                      ItemsSource="{Binding StatusFilters}"
+                      SelectedItem="{Binding SelectedStatusFilter}"/>
                         <ComboBox Width="120" Style="{StaticResource OutlineComboBox}"
-                      Tag="Any Technician" Height="30"/>
+                      Height="30"
+                      FontSize="11"
+                      ItemsSource="{Binding AvailableTechnicians}"
+                      SelectedItem="{Binding SelectedTechnicianFilter}"
+                      DisplayMemberPath="Name"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -54,18 +68,21 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0" Text="ID" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="1" Text="SERVICE TYPE" TextWrapping="Wrap" 
+                <TextBlock Grid.Column="1" Text="SERVICE TYPE" TextWrapping="Wrap"
                 TextAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="2" Text="CUSTOMER" VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="3" Text="TECHNICIAN" VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="4" Text="PRICE" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="5" Text="DATE CREATED" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="5" Text="APPOINTMENT" VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="6" Text="STATUS" VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="7" Text="ACTION" VerticalAlignment="Center"/>
             </Grid>
             <Border Grid.Row="2" CornerRadius="0,0,14,14" ClipToBounds="True">
-                <ItemsControl
-              ItemsSource="{Binding ServiceOrders}"
+                <ScrollViewer Style="{StaticResource CustomScrollViewer}"
+                            VerticalScrollBarVisibility="Auto"
+                            HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl
+              ItemsSource="{Binding ServiceOrders, RelativeSource={RelativeSource AncestorType=UserControl}}"
               d:ItemsSource="{d:SampleData ItemCount=5}"
               AlternationCount="2">
                     <ItemsControl.ItemTemplate>
@@ -90,43 +107,126 @@
                                         </Style>
                                     </Grid.Resources>
 
-                                    <TextBlock Grid.Column="0" Text="S001" 
+                                    <TextBlock Grid.Column="0" Text="{Binding SaleID, StringFormat=S{0:000}}"
                                VerticalAlignment="Center" FontWeight="Bold"/>
-                                    <TextBlock Grid.Column="1" Text="Broken Motherboard"
+                                    <TextBlock Grid.Column="1" Text="{Binding Service.Name}"
                                TextWrapping="Wrap" FontWeight="Bold"
                                TextAlignment="Center" VerticalAlignment="Center"/>
-                                    <TextBlock Grid.Column="2" Text="M. Soriano" 
+                                    <TextBlock Grid.Column="2" VerticalAlignment="Center" FontWeight="Bold">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                <Binding Path="Customer.FirstName"/>
+                                                <Binding Path="Customer.LastName"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="3" Text="{Binding Technician.Name}"
                                VerticalAlignment="Center" FontWeight="Bold"/>
-                                    <TextBlock Grid.Column="3" Text="M. Soriano" 
-                               VerticalAlignment="Center" FontWeight="Bold"/>
-                                    <TextBlock Grid.Column="4" Text="₱ 5,999" 
+                                    <TextBlock Grid.Column="4" Text="{Binding Service.Price, StringFormat=₱ {0:N0}}"
                                VerticalAlignment="Center"/>
-                                    <TextBlock Grid.Column="5" Text="02/11/2025" 
+                                    <TextBlock Grid.Column="5" Text="{Binding AppointmentDate, StringFormat=dd/MM/yyyy}"
                                VerticalAlignment="Center"/>
                                     <Border Grid.Column="6" VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Padding="8,4,8,4"
                                 Background="#190000FF" CornerRadius="12">
                                         <TextBlock>
-                                            <TextBlock.Text>Completed</TextBlock.Text>
+                                            <TextBlock.Text>
+                                                <Binding Path="Status"/>
+                                            </TextBlock.Text>
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Style.Triggers>
                                                         <Trigger Property="Text" Value="Completed">
                                                             <Setter Property="Foreground" Value="#00C206"/>
                                                         </Trigger>
+                                                         <Trigger Property="Text" Value="Cancelled">
+                                                            <Setter Property="Foreground" Value="#FF0000"/>
+                                                        </Trigger>
+                                                         <Trigger Property="Text" Value="Pending">
+                                                            <Setter Property="Foreground" Value="#0000FF"/>
+                                                        </Trigger>
+                                                          <Trigger Property="Text" Value="Ongoing">
+                                                            <Setter Property="Foreground" Value="#FFA500"/>
+                                                        </Trigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </TextBlock.Style>
                                         </TextBlock>
                                     </Border>
-                                    <Button Style="{StaticResource KebabMenuButton}" 
-                                Grid.Column="7" Background="White" BorderThickness="1"/>
+                                    <Button Style="{StaticResource KebabMenuButton}"
+                                         Grid.Column="7"
+                                            Background="White"
+                                            BorderThickness="1"
+                                         Click="KebabMenu_Click"
+                                         Tag="{Binding}">
+                                        <Button.ContextMenu>
+                                            <ContextMenu HasDropShadow="True" Width="200">
+                                                <ContextMenu.Template>
+                                                    <ControlTemplate TargetType="ContextMenu">
+                                                        <Border Background="White"
+                                                                BorderBrush="#E0E0E0"
+                                                                BorderThickness="1"
+                                                                CornerRadius="4"
+                                                                Padding="8">
+                                                            <StackPanel>
+                                                                <Border Background="Transparent" Padding="12,8" CornerRadius="4" Margin="2"
+                                                                        MouseEnter="MenuItem_MouseEnter" MouseLeave="MenuItem_MouseLeave">
+                                                                    <TextBlock Text="View" FontSize="14" Cursor="Hand"
+                                                                               MouseLeftButtonDown="ViewMenuItem_Click"/>
+                                                                </Border>
+                                                                <Border Background="Transparent" Padding="12,8" CornerRadius="4" Margin="2"
+                                                                        MouseEnter="MenuItem_MouseEnter" MouseLeave="MenuItem_MouseLeave"
+                                                                        Visibility="{Binding Tag.Status, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource StatusToEditVisibilityConverter}}">
+                                                                    <TextBlock Text="Edit" FontSize="14" Cursor="Hand"
+                                                                               MouseLeftButtonDown="EditMenuItem_Click"/>
+                                                                </Border>
+                                                                <Button Content="Set to Ongoing"
+                                                                        Style="{StaticResource OutlineButton}"
+                                                                        Background="#FFA500"
+                                                                        Foreground="White"
+                                                                        FontWeight="SemiBold"
+                                                                        BorderThickness="0"
+                                                                        Height="32"
+                                                                        Margin="4,4,4,2"
+                                                                        Click="SetOngoingMenuItem_Click"
+                                                                        Tag="6"
+                                                                        Visibility="{Binding Tag.Status, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource StatusToSetOngoingVisibilityConverter}}"/>
+                                                                <Button Content="Set to Completed"
+                                                                        Style="{StaticResource OutlineButton}"
+                                                                        Background="#00FF00"
+                                                                        Foreground="White"
+                                                                        FontWeight="SemiBold"
+                                                                        BorderThickness="0"
+                                                                        Height="32"
+                                                                        Margin="4,2,4,2"
+                                                                        Click="SetCompletedMenuItem_Click"
+                                                                        Tag="6"
+                                                                        Visibility="{Binding Tag.Status, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource StatusToSetCompletedVisibilityConverter}}"/>
+                                                                <Button Content="Cancel Order"
+                                                                        Style="{StaticResource OutlineButton}"
+                                                                        Background="#0000FF"
+                                                                        Foreground="White"
+                                                                        FontWeight="SemiBold"
+                                                                        BorderThickness="0"
+                                                                        Height="32"
+                                                                        Margin="4,2,4,4"
+                                                                        Click="CancelOrderMenuItem_Click"
+                                                                        Tag="6"
+                                                                        Visibility="{Binding Tag.Status, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource StatusToCancelVisibilityConverter}}"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </ContextMenu.Template>
+                                            </ContextMenu>
+                                        </Button.ContextMenu>
+                                    </Button>
                                 </Grid>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+                </ScrollViewer>
             </Border>
         </Grid>
     </Border>

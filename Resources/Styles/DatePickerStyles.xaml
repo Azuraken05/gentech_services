@@ -11,21 +11,38 @@
                                 BorderBrush="#DDE1E6"
                                 BorderThickness="1"
                                 CornerRadius="4"
-                                Padding="4">
-                            <Grid>
+                                Padding="4"
+                                Cursor="Hand">
+                            <Grid Background="Transparent">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
+
+                                <!-- Invisible button overlay to make entire area clickable -->
+                                <Button x:Name="PART_Button"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Focusable="False"
+                                        Cursor="Hand">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="Transparent"/>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
 
                                 <TextBox x:Name="PART_TextBox"
                                          Grid.Column="0"
                                          Background="Transparent"
                                          BorderThickness="0"
                                          IsEnabled="False"
+                                         IsHitTestVisible="False"
                                          VerticalAlignment="Center"
-                                         Text="{Binding Path=SelectedDate, 
-                                                RelativeSource={RelativeSource TemplatedParent}, 
+                                         Text="{Binding Path=SelectedDate,
+                                                RelativeSource={RelativeSource TemplatedParent},
                                                 StringFormat='dd/MM/yyyy'}"/>
 
                                 <TextBlock x:Name="Placeholder"
@@ -39,18 +56,14 @@
                                            IsHitTestVisible="False"
                                            Visibility="Collapsed"/>
 
-                                <Button x:Name="PART_Button"
-                                        Grid.Column="1"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Width="20"
-                                        Focusable="False">
-                                    <Path Data="M 0 0 L 4 4 L 8 0 Z"
-                                          Fill="Gray"
-                                          HorizontalAlignment="Right"
-                                            VerticalAlignment="Center"
-                                             Margin="0,0,8,0"/>
-                                </Button>
+                                <!-- Calendar icon -->
+                                <Path Grid.Column="1"
+                                      Data="M 0 0 L 4 4 L 8 0 Z"
+                                      Fill="Gray"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,8,0"
+                                      IsHitTestVisible="False"/>
                             </Grid>
                         </Border>
 

@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace gentech_services.Converters
 {
-    class TagToCornerRadiusConverter : IValueConverter
+    public class TagToCornerRadiusConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

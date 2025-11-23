@@ -15,12 +15,14 @@ namespace ProductServicesManagementSystem.Models
 
         public decimal Price { get; set; }
 
+        //TODO: figure out what to do with this
         public int CategoryID { get; set; }
 
         public bool IsActive { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+
         public Category Category { get; set; }
         //public ICollection<Appointment> Appointments { get; set; }
     }

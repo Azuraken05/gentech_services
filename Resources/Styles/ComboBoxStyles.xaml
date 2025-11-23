@@ -8,6 +8,16 @@
         <Setter Property="Padding" Value="4"/>
         <Setter Property="Tag" Value="Select an option"/>
         <Setter Property="Effect" Value="{StaticResource BorderShadow}"/>
+        <Setter Property="FontSize" Value="12"/>
+
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType=ComboBox}}"/>
+                    <Setter Property="Padding" Value="8,4"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -41,7 +51,13 @@
                                                       Content="{TemplateBinding Content}"
                                                       Margin="8,0,8,0"
                                                       VerticalAlignment="Center"
-                                                      HorizontalAlignment="Left"/>
+                                                      HorizontalAlignment="Left">
+                                            <ContentPresenter.Resources>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType=ComboBox}}"/>
+                                                </Style>
+                                            </ContentPresenter.Resources>
+                                        </ContentPresenter>
            
                                         <Path Data="M 0 0 L 4 4 L 8 0 Z"
                                           Fill="Gray"
@@ -54,7 +70,13 @@
                             <ToggleButton.Content>
                                 <ContentPresenter Content="{TemplateBinding SelectionBoxItem}"
                                             ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
+                                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}">
+                                    <ContentPresenter.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType=ComboBox}}"/>
+                                        </Style>
+                                    </ContentPresenter.Resources>
+                                </ContentPresenter>
                             </ToggleButton.Content>
                         </ToggleButton>
 

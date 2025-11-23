@@ -1,4 +1,5 @@
-﻿using System;
+﻿using gentech_services.ViewsModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,11 +21,37 @@ namespace gentech_services.Views.Pages
     /// </summary>
     public partial class ServiceOrderPage : UserControl
     {
+        private ServiceOrderViewModel viewModel;
+
         public ServiceOrderPage()
         {
-            DataContext = this;
-
             InitializeComponent();
+
+            viewModel = new ServiceOrderViewModel();
+            DataContext = viewModel;
+
+            // Wire up the modal actions
+            viewModel.ShowViewOrderModal = (order) =>
+            {
+                ViewOrderModal.ShowModal(order);
+            };
+
+            viewModel.ShowEditOrderModal = (order, services, technicians) =>
+            {
+                EditOrderModal.ShowModal(order, services, technicians);
+            };
+
+            // Wire up save changes callback
+            EditOrderModal.OnSaveChanges = (updatedOrder) =>
+            {
+                // Force UI refresh by removing and re-adding the item
+                var index = viewModel.ServiceOrders.IndexOf(updatedOrder);
+                if (index >= 0)
+                {
+                    viewModel.ServiceOrders.RemoveAt(index);
+                    viewModel.ServiceOrders.Insert(index, updatedOrder);
+                }
+            };
         }
     }
 }
