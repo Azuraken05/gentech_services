@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="gentech_services.Views.UserControls.ProductManagementTable"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:gentech_services.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Border CornerRadius="14" Background="White" ClipToBounds="True">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            
+
+            <Grid Grid.Row="0" Margin="0,0,20,0">
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Padding" Value="4"/>
+                        <Setter Property="FontSize" Value="12"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2.5*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1.2*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1.2*"/>
+                    <ColumnDefinition Width="1.1*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="ID" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="NAME" TextWrapping="Wrap" 
+            TextAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="2" Text="CATEGORY" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="3" Text="PRICE" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="4" Text="STOCK QUANTITY" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+                <TextBlock Grid.Column="5" Text="SKU" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="6" Text="STATUS" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="7" Text="ACTION" VerticalAlignment="Center"/>
+            </Grid>
+            <Border Grid.Row="1" CornerRadius="0,0,14,14" ClipToBounds="True">
+                <ScrollViewer>
+                    <ItemsControl
+ItemsSource="{Binding ServiceOrders}"
+d:ItemsSource="{d:SampleData ItemCount=5}"
+AlternationCount="2">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource AlternatingRow}" Padding="4">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2.5*"/>
+                                            <ColumnDefinition Width="1.5*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.1*"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Padding" Value="4"/>
+                                                <Setter Property="FontSize" Value="12"/>
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                            </Style>
+                                        </Grid.Resources>
+
+                                        <TextBlock Grid.Column="0" Text="P001" 
+                 VerticalAlignment="Center" FontWeight="Bold"/>
+                                        <TextBlock Grid.Column="1" Text="Lenovo Legion 3"
+                 TextWrapping="Wrap" FontWeight="Bold"
+                 TextAlignment="Center" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="Laptop" 
+                 VerticalAlignment="Center" FontWeight="Bold"/>
+                                        <TextBlock Grid.Column="3" Text="₱ 5,999" 
+                 VerticalAlignment="Center" FontWeight="Bold"/>
+                                        <TextBlock Grid.Column="4" Text="300" 
+                 VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="5" Text="83M00051PH" 
+                 VerticalAlignment="Center"/>
+                                        <Border Grid.Column="6" VerticalAlignment="Center"
+HorizontalAlignment="Center"
+Padding="8,4,8,4"
+Background="#190000FF" CornerRadius="12">
+                                            <TextBlock>
+                                                <TextBlock.Text>Inactive</TextBlock.Text>
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="Text" Value="Active">
+                                                                <Setter Property="Foreground" Value="#00C206"/>
+                                                            </Trigger>
+                                                            <Trigger Property="Text" Value="Inactive">
+                                                                <Setter Property="Foreground" Value="#FF0000"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Border>
+                                        <Button Grid.Row="7" Style="{StaticResource KebabMenuButton}" 
+                  Grid.Column="7" Background="White" BorderThickness="1"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+                
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>
