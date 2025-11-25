@@ -42,7 +42,7 @@
             </Grid>
         </Border>
         <Border Grid.Row="2" CornerRadius="0,0,14,14" ClipToBounds="True" VerticalAlignment="Stretch" >
-            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" Style="{StaticResource CustomScrollViewer}">
                 <ItemsControl ItemsSource="{Binding ProductOrders}" d:ItemsSource="{d:SampleData ItemCount=5}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

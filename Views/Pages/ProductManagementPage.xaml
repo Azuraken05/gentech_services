@@ -26,7 +26,7 @@
                         
                     </Grid.ColumnDefinitions>
 
-                    <TextBox Grid.Column="0" Style="{StaticResource OutlineTextBox}" Tag="Search by name or category" Height="30" BorderBrush="#000000" />
+                    <TextBox Grid.Column="0" Style="{StaticResource OutlineTextBox}" Tag="Search by name or category" Height="30" FontSize="12" BorderBrush="#000000" />
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" >
                         <ComboBox Style="{StaticResource OutlineComboBox}" Width="120" Margin="0,0,10,0" Tag="All Categories" Height="30"/>
                         <Button Style="{StaticResource OutlineButton}" Width="100" Background="#0000FF" Content="+ New Product" Foreground="White"/>

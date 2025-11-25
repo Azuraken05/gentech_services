@@ -610,7 +610,6 @@ namespace gentech_services.ViewsModels
                 Service = SelectedService,
                 AppointmentDate = SelectedDate.Value,
                 Status = "Pending",
-                PaymentMethod = "Not Set",
                 Technician = new User { Name = "Unassigned" } // Default technician
             };
 

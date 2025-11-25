@@ -15,7 +15,7 @@
             <ColumnDefinition Width="341*"/>
         </Grid.ColumnDefinitions>
         <control:Sidebar/>
-        <pages:ServiceManagementPage Grid.Column="1" Margin="16,16,16,16"
+        <pages:ProductManagementPage Grid.Column="1" Margin="80,64"
                                      Grid.ColumnSpan="4" MaxWidth="1000"/>
     </Grid>
 </Window>
