@@ -141,18 +141,17 @@
                                                                         <TextBlock Text="Edit" FontSize="14" Cursor="Hand"
                                                                                    MouseLeftButtonDown="EditMenuItem_Click"/>
                                                                     </Border>
-                                                                    <Button Content="Set to Ongoing"
+                                                                    <Button Content="Delete"
                                                                             Style="{StaticResource OutlineButton}"
-                                                                            Background="#FFA500"
+                                                                            Background="#FF0000"
                                                                             Foreground="White"
                                                                             FontWeight="SemiBold"
                                                                             BorderThickness="0"
                                                                             Height="32"
                                                                             Margin="4,4,4,2"
-                                                                            Click="SetOngoingMenuItem_Click"
+                                                                            Click="DeleteItem_Click"
                                                                             Tag="6"
                                                                             Visibility="{Binding Tag.Status, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource StatusToSetOngoingVisibilityConverter}}"/>
-                                                                    
                                                                 </StackPanel>
                                                             </Border>
                                                         </ControlTemplate>

@@ -1,27 +1,33 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace YourApp.Controls
+namespace gentech_services.Views.UserControls
 {
-    public partial class EditUserControl : UserControl
+    /// <summary>
+    /// Interaction logic for EditUser.xaml
+    /// </summary>
+    public partial class EditUser : UserControl
     {
-        private static readonly Regex _nonDigit = new Regex(@"\D", RegexOptions.Compiled);
-
-        public EditUserControl()
+        public EditUser()
         {
             InitializeComponent();
-            DataContext = new EditUserViewModel
-            {
-                FullName = "Juan Pablo",
-                Username = "Pablo Jab",
-                Roles = new System.Collections.ObjectModel.ObservableCollection<string> { "Staff", "Manager", "Admin" },
-                SelectedRole = "Staff",
-                Pin = "1234"
-            };
         }
+        private static readonly Regex _nonDigit = new Regex(@"\D", RegexOptions.Compiled);
+
+        
 
         private void Pin_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -30,8 +36,8 @@ namespace YourApp.Controls
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            var vm = DataContext as EditUserViewModel;
-            MessageBox.Show($"Saved:\n{vm.FullName}\n{vm.Username}\nRole: {vm.SelectedRole}\nPIN: {vm.Pin}", "Saved");
+            //var vm = DataContext as EditUserViewModel;
+            //MessageBox.Show($"Saved:\n{}\n{vm.Username}\nRole: {vm.SelectedRole}\nPIN: {vm.Pin}", "Saved");
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

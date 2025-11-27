@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace gentech_services.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for AddUser.xaml
+    /// Interaction logic for AddUserModal.xaml
     /// </summary>
-    public partial class AddUser : UserControl
+    public partial class AddUserModal : UserControl
     {
-        public AddUser()
+        public AddUserModal()
         {
             InitializeComponent();
         }

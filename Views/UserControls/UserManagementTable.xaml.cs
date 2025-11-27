@@ -18,35 +18,34 @@ using System.Windows.Shapes;
 namespace gentech_services.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for ProductManagementTable.xaml
+    /// Interaction logic for UserManagementTable.xaml
     /// </summary>
-    public partial class ProductManagementTable : UserControl
+    public partial class UserManagementTable : UserControl
     {
-
-        public static readonly DependencyProperty ProductsProperty =
-            DependencyProperty.Register("Products",
-                typeof(ObservableCollection<Product>),
-                typeof(ProductManagementTable),
+        public static readonly DependencyProperty UsersProperty =
+            DependencyProperty.Register("Users",
+                typeof(ObservableCollection<User>),
+                typeof(UserManagementTable),
                 new PropertyMetadata(null));
 
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel",
                 typeof(object),
-                typeof(ProductManagementTable),
+                typeof(UserManagementTable),
                 new PropertyMetadata(null, OnViewModelChanged));
 
         private static void OnViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ProductManagementTable control)
+            if (d is UserManagementTable control)
             {
                 control.DataContext = e.NewValue;
             }
         }
 
-        public ObservableCollection<Product> Products
+        public ObservableCollection<User> Users
         {
-            get { return (ObservableCollection<Product>)GetValue(ProductsProperty); }
-            set { SetValue(ProductsProperty, value); }
+            get { return (ObservableCollection<User>)GetValue(UsersProperty); }
+            set { SetValue(UsersProperty, value); }
         }
 
         public object ViewModel
@@ -55,7 +54,7 @@ namespace gentech_services.Views.UserControls
             set { SetValue(ViewModelProperty, value); }
         }
 
-        public ProductManagementTable()
+        public UserManagementTable()
         {
             InitializeComponent();
         }
@@ -66,44 +65,23 @@ namespace gentech_services.Views.UserControls
             {
                 button.ContextMenu.PlacementTarget = button;
                 button.ContextMenu.DataContext = this.DataContext;
-                button.ContextMenu.Tag = button.Tag; // Store the Product
+                button.ContextMenu.Tag = button.Tag; // Store the ServiceOrder
                 button.ContextMenu.IsOpen = true;
             }
         }
 
-        private void ViewMenuItem_Click(object sender, MouseButtonEventArgs e)
-        {
-            var contextMenu = FindContextMenu(sender);
-            if (contextMenu?.Tag is Product order)
-            {
-                dynamic vm = DataContext;
-                vm.ViewDetailsCommand?.Execute(order);
-                contextMenu.IsOpen = false;
-            }
-        }
+        
 
         private void EditMenuItem_Click(object sender, MouseButtonEventArgs e)
         {
             var contextMenu = FindContextMenu(sender);
-            if (contextMenu?.Tag is Product order)
+            if (contextMenu?.Tag is User order)
             {
                 dynamic vm = DataContext;
                 vm.EditCommand?.Execute(order);
                 contextMenu.IsOpen = false;
             }
         }
-
-        private void DeleteItem_Click(object sender, RoutedEventArgs e)
-        {
-            var contextMenu = FindContextMenu(sender);
-            if (contextMenu?.Tag is Product order)
-            {
-                dynamic vm = DataContext;
-                vm.CancelAppointmentCommand?.Execute(order);
-                contextMenu.IsOpen = false;
-            }
-        }
-
         private ContextMenu FindContextMenu(object sender)
         {
             DependencyObject element = sender as DependencyObject;
@@ -115,7 +93,16 @@ namespace gentech_services.Views.UserControls
             }
             return null;
         }
-
+        private void DeleteItem_Click(object sender, RoutedEventArgs e)
+        {
+            var contextMenu = FindContextMenu(sender);
+            if (contextMenu?.Tag is User order)
+            {
+                dynamic vm = DataContext;
+                vm.CancelAppointmentCommand?.Execute(order);
+                contextMenu.IsOpen = false;
+            }
+        }
         private void MenuItem_MouseEnter(object sender, MouseEventArgs e)
         {
             if (sender is Border border)
