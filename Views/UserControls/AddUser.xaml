@@ -3,78 +3,101 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:gentech_services.Views.UserControls"
              mc:Ignorable="d"
-             Width="520" Height="250">
+             >
 
-    <Grid Margin="20,20,20,-7" Background="#FFFFFF">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <UserControl.Resources>
 
-        <!-- Title -->
-        <TextBlock Text="Add User"
-                   FontSize="24"
-                   FontWeight="Bold"/>
+        <Style TargetType="TextBox" x:Key="EditTextBox" BasedOn="{StaticResource OutlineTextBox}">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+           
 
-        <!-- Form -->
-        <Grid Grid.Row="2" Margin="0,10,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="25"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        </Style>
+        <Style TargetType="ComboBox" x:Key="EditComboBox" BasedOn="{StaticResource OutlineComboBox}">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="BorderBrush" Value="Black"/>
 
+        </Style>
+
+    </UserControl.Resources>
+
+    <Border Padding="20" Background="#FFFFFF" MinWidth="520" MinHeight="250" CornerRadius="6" BorderBrush="Black" BorderThickness="1">
+        <Grid >
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="12"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- Full Name -->
-            <StackPanel Grid.Column="0" Grid.Row="0" Margin="0,0,0,10">
-                <TextBlock Text="Full Name" FontWeight="SemiBold"/>
-                <TextBox Width="210" Height="32" Text="Juan Pablo"/>
-            </StackPanel>
+            <!-- Title -->
+            <TextBlock Text="Add User"
+               FontSize="24"
+               FontWeight="Bold"
+               Grid.Row="0"/>
 
-            <!-- Username -->
-            <StackPanel Grid.Column="2" Grid.Row="0" Margin="0,0,0,10">
-                <TextBlock Text="Username" FontWeight="SemiBold"/>
-                <TextBox Width="210" Height="32" Text="Pablo Jab"/>
-            </StackPanel>
+            <!-- Form -->
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="12"/>
+                            <Setter Property="Margin" Value="0,0,0,3"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="FontSize" Value="12"/>
+                            <Setter Property="BorderBrush" Value="#000000"/>
+                        </Style>
+                    </Grid.Resources>
+                    <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center">
+                        <TextBlock Text="Full Name "/>
+                        <TextBox Style="{StaticResource EditTextBox}" Margin="0,0,0,20"/>
+                        <TextBlock Text="Role "/>
+                        <ComboBox x:Name="RoleComboBox" Style="{StaticResource EditComboBox}" MaxDropDownHeight="150"/>
+                       
 
-            <!-- Role -->
-            <StackPanel Grid.Column="0" Grid.Row="1">
-                <TextBlock Text="Role" FontWeight="SemiBold"/>
-                <ComboBox Width="210" Height="32" SelectedIndex="0">
-                    <ComboBoxItem Content="Staff"/>
-                    <ComboBoxItem Content="Admin"/>
-                </ComboBox>
-            </StackPanel>
 
-            <!-- PIN -->
-            <StackPanel Grid.Column="2" Grid.Row="1">
-                <TextBlock Text="PIN (4–6 digits)" FontWeight="SemiBold"/>
-                <TextBox Width="210" Height="32" Text="300"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Grid.Column="2" >
+
+                        <TextBlock Text="Username "/>
+                        <TextBox x:Name="TxtUsername" Style="{StaticResource EditTextBox}" Margin="0,0,0,20"/>
+                        <TextBlock Text="PIN (4-6 digits) "/>
+                        <TextBox  x:Name="TxtPIN" Style="{StaticResource EditTextBox}" Margin="0,0,0,10"/>
+                    </StackPanel>
+
+                </Grid>
+
+                
+
+            </Grid>
+
+            <!-- Buttons -->
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0" >
+                <Button x:Name="BtnSave" Content="Save"  FontSize="12" Padding="8,4" Style="{StaticResource OutlineButton}" Background="#0000FF" Foreground="White"  Width="70"/>
+                <Button  x:Name="BtnCancel" Content="Cancel"  FontSize="12" Padding="8,4" Style="{StaticResource OutlineButton}" Background="#FFFFFF" Width="70" Margin="10,0,0,0"/>
+
             </StackPanel>
+            
         </Grid>
+    </Border>
 
-        <!-- Buttons -->
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="3"
-                    Margin="0,20,0,0"
-                    HorizontalAlignment="Left">
-
-            <Button Content="Cancel"
-                    Width="75" Height="32"
-                    Margin="0,0,10,0"/>
-
-            <Button Content="Save"
-                    Width="75" Height="32"
-                    Background="#0057FF"
-                    Foreground="White"/>
-        </StackPanel>
-    </Grid>
+    
 
 </UserControl>
