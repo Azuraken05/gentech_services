@@ -21,6 +21,8 @@ namespace gentech_services.Views.UserControls
     /// </summary>
     public partial class Sidebar : UserControl
     {
+        public event EventHandler<string> NavigationRequested;
+
         public Sidebar()
         {
             InitializeComponent();
@@ -34,7 +36,7 @@ namespace gentech_services.Views.UserControls
 
         private void Dashboard_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationRequested?.Invoke(this, "Dashboard");
         }
 
         private void Services_Click(object sender, RoutedEventArgs e)
@@ -45,12 +47,12 @@ namespace gentech_services.Views.UserControls
 
         private void ServiceManagement_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationRequested?.Invoke(this, "ServiceManagement");
         }
 
         private void ServiceOrders_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationRequested?.Invoke(this, "ServiceOrders");
         }
 
         private void Products_Click(object sender, RoutedEventArgs e)
@@ -61,22 +63,22 @@ namespace gentech_services.Views.UserControls
 
         private void InventoryManagement_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationRequested?.Invoke(this, "InventoryManagement");
         }
 
         private void ProductOrders_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationRequested?.Invoke(this, "ProductOrders");
         }
 
         private void Users_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationRequested?.Invoke(this, "UserManagement");
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationRequested?.Invoke(this, "Logout");
         }
     }
 

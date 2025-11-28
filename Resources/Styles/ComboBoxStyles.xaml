@@ -106,4 +106,93 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="BlackOutlineComboBox" TargetType="ComboBox" BasedOn="{StaticResource OutlineComboBox}">
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"/>
+                        <TextBlock Text="{TemplateBinding Tag}"
+                                        Foreground="Black"
+                                        VerticalAlignment="Center"
+                                        Visibility="Hidden"
+                                        Margin="8,0,8,0"
+                                        x:Name="Placeholder"
+                                        FontSize="{Binding FontSize, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                              />
+                        <ToggleButton x:Name="ToggleButton"
+                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch"
+                                  Focusable="False">
+
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Grid Background="Transparent">
+                                        <ContentPresenter x:Name="ContentSite"
+                                                      Content="{TemplateBinding Content}"
+                                                      Margin="8,0,8,0"
+                                                      VerticalAlignment="Center"
+                                                      HorizontalAlignment="Left">
+                                            <ContentPresenter.Resources>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType=ComboBox}}"/>
+                                                </Style>
+                                            </ContentPresenter.Resources>
+                                        </ContentPresenter>
+
+                                        <Path Data="M 0 0 L 4 4 L 8 0 Z"
+                                          Fill="Gray"
+                                          HorizontalAlignment="Right"
+                                          VerticalAlignment="Center"
+                                          Margin="0,0,8,0"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                            <ToggleButton.Content>
+                                <ContentPresenter Content="{TemplateBinding SelectionBoxItem}"
+                                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}">
+                                    <ContentPresenter.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType=ComboBox}}"/>
+                                        </Style>
+                                    </ContentPresenter.Resources>
+                                </ContentPresenter>
+                            </ToggleButton.Content>
+                        </ToggleButton>
+
+                        <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom"
+                               AllowsTransparency="True" Focusable="False" PopupAnimation="Fade" >
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="6" MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ScrollViewer Margin="4,2,4,2" SnapsToDevicePixels="True">
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Black"/>
+                        </Trigger>
+
+                        <Trigger Property="SelectedItem" Value="{x:Null}">
+                            <Setter TargetName="Placeholder" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

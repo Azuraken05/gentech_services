@@ -80,7 +80,8 @@
             <Border Grid.Row="2" CornerRadius="0,0,14,14" ClipToBounds="True">
                 <ScrollViewer Style="{StaticResource CustomScrollViewer}"
                             VerticalScrollBarVisibility="Auto"
-                            HorizontalScrollBarVisibility="Disabled">
+                            HorizontalScrollBarVisibility="Disabled"
+                            MinHeight="600">
                     <ItemsControl
               ItemsSource="{Binding ServiceOrders, RelativeSource={RelativeSource AncestorType=UserControl}}"
               d:ItemsSource="{d:SampleData ItemCount=5}"

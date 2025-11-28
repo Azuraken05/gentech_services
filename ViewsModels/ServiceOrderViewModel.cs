@@ -24,7 +24,6 @@ namespace gentech_services.ViewsModels
         public Action<ServiceOrder> ShowViewOrderModal { get; set; }
         public Action<ServiceOrder, ObservableCollection<Service>, ObservableCollection<User>> ShowEditOrderModal { get; set; }
 
-        // Form input properties
         private string firstName;
         private string lastName;
         private string email;
@@ -34,7 +33,6 @@ namespace gentech_services.ViewsModels
         private string issueDescription;
         private ObservableCollection<Service> availableServices;
 
-        // Validation error properties
         private string firstNameError;
         private string lastNameError;
         private string emailError;
@@ -42,7 +40,6 @@ namespace gentech_services.ViewsModels
         private string serviceError;
         private string dateError;
 
-        // Filter properties
         private string selectedStatusFilter;
         private User selectedTechnicianFilter;
         private ObservableCollection<string> statusFilters;
@@ -196,7 +193,6 @@ namespace gentech_services.ViewsModels
             serviceOrders = new ObservableCollection<ServiceOrder>();
             allServiceOrders = new ObservableCollection<ServiceOrder>();
 
-            // Initialize filter collections
             statusFilters = new ObservableCollection<string>
             {
                 "All Statuses",
@@ -241,7 +237,6 @@ namespace gentech_services.ViewsModels
         {
             if (order != null)
             {
-                // Don't allow cancelling completed orders
                 if (order.Status == "Completed")
                 {
                     MessageBox.Show(
@@ -418,8 +413,7 @@ namespace gentech_services.ViewsModels
                     return;
                 }
 
-                // For now, show a simple date picker dialog using MessageBox
-                // In a real implementation, you'd want a custom dialog with a DatePicker
+
                 MessageBox.Show(
                     $"Reschedule feature coming soon.\n\n" +
                     $"Order ID: #S{order.SaleID:000}\n" +
@@ -461,19 +455,16 @@ namespace gentech_services.ViewsModels
         {
             IEnumerable<ServiceOrder> filteredOrders = allServiceOrders;
 
-            // Filter by status
             if (!string.IsNullOrEmpty(SelectedStatusFilter) && SelectedStatusFilter != "All Statuses")
             {
                 filteredOrders = filteredOrders.Where(o => o.Status == SelectedStatusFilter);
             }
 
-            // Filter by technician
             if (SelectedTechnicianFilter != null && SelectedTechnicianFilter.Name != "All Technicians")
             {
                 filteredOrders = filteredOrders.Where(o => o.Technician?.Name == SelectedTechnicianFilter.Name);
             }
 
-            // Update the visible collection
             serviceOrders.Clear();
             foreach (var order in filteredOrders)
             {
@@ -485,7 +476,6 @@ namespace gentech_services.ViewsModels
         {
             bool isValid = true;
 
-            // Clear previous errors
             FirstNameError = string.Empty;
             LastNameError = string.Empty;
             EmailError = string.Empty;
@@ -493,21 +483,18 @@ namespace gentech_services.ViewsModels
             ServiceError = string.Empty;
             DateError = string.Empty;
 
-            // Validate First Name
             if (string.IsNullOrWhiteSpace(FirstName))
             {
                 FirstNameError = "First name is required";
                 isValid = false;
             }
 
-            // Validate Last Name
             if (string.IsNullOrWhiteSpace(LastName))
             {
                 LastNameError = "Last name is required";
                 isValid = false;
             }
 
-            // Validate Email
             if (string.IsNullOrWhiteSpace(Email))
             {
                 EmailError = "Email is required";
@@ -519,7 +506,6 @@ namespace gentech_services.ViewsModels
                 isValid = false;
             }
 
-            // Validate Phone
             if (string.IsNullOrWhiteSpace(Phone))
             {
                 PhoneError = "Phone number is required";
@@ -531,14 +517,12 @@ namespace gentech_services.ViewsModels
                 isValid = false;
             }
 
-            // Validate Service
             if (SelectedService == null)
             {
                 ServiceError = "Please select a service";
                 isValid = false;
             }
 
-            // Validate Date
             if (!SelectedDate.HasValue)
             {
                 DateError = "Date is required";
@@ -568,10 +552,8 @@ namespace gentech_services.ViewsModels
 
         private bool IsValidPhone(string phone)
         {
-            // Remove common formatting characters
             string cleaned = phone.Replace("-", "").Replace(" ", "").Replace("(", "").Replace(")", "");
 
-            // Check if it's all digits and has 10-11 digits (Philippine format)
             return cleaned.Length >= 10 && cleaned.Length <= 11 && cleaned.All(char.IsDigit);
         }
 
@@ -592,7 +574,6 @@ namespace gentech_services.ViewsModels
                 return;
             }
 
-            // Create new customer
             var customer = new Customer
             {
                 FirstName = FirstName,
@@ -602,19 +583,17 @@ namespace gentech_services.ViewsModels
                 CreatedAt = DateTime.Now
             };
 
-            // Create new service order
             var serviceOrder = new ServiceOrder
             {
-                SaleID = serviceOrders.Count + 1, // Simple ID generation
+                SaleID = serviceOrders.Count + 1, 
                 Customer = customer,
                 Service = SelectedService,
                 AppointmentDate = SelectedDate.Value,
                 Status = "Pending",
                 PaymentMethod = "Not Set",
-                Technician = new User { Name = "Unassigned" } // Default technician
+                Technician = new User { Name = "Unassigned" } 
             };
 
-            // Add to both collections
             allServiceOrders.Add(serviceOrder);
             serviceOrders.Add(serviceOrder);
 
@@ -711,7 +690,6 @@ namespace gentech_services.ViewsModels
                 }
             };
 
-            // Create additional technicians
             User technician2 = new User
             {
                 Name = "M. Soriano",
@@ -732,7 +710,6 @@ namespace gentech_services.ViewsModels
                 CreatedAt = DateTime.Now,
             };
 
-            // Populate available services
             availableServices = new ObservableCollection<Service>
             {
                 service1,
@@ -741,7 +718,6 @@ namespace gentech_services.ViewsModels
             };
             OnPropertyChanged(nameof(AvailableServices));
 
-            // Populate available technicians with "All Technicians" option
             availableTechnicians = new ObservableCollection<User>
             {
                 new User { Name = "All Technicians" }, // Filter option
@@ -749,10 +725,9 @@ namespace gentech_services.ViewsModels
                 technician2,
                 technician3
             };
-            selectedTechnicianFilter = availableTechnicians[0]; // Set default to "All Technicians"
+            selectedTechnicianFilter = availableTechnicians[0]; 
             OnPropertyChanged(nameof(AvailableTechnicians));
 
-            // Create sample data - 25 orders with various statuses
             var random = new Random();
             var statuses = new[] { "Pending", "Ongoing", "Completed", "Cancelled" };
             var firstNames = new[] { "Nicole", "John", "Maria", "David", "Sarah", "Michael", "Emma", "James", "Olivia", "William" };

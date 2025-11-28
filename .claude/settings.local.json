@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(Select-String -Pattern \"error|warning\" -Context 0,0)",
+      "Bash(Select-Object -Last 20)",
+      "Bash(Select-String -Pattern \"EditProductNameTextBox|EditSKUTextBox|EditCategoryComboBox|EditPriceTextBox|EditStockTextBox|EditDescriptionTextBox\" InventoryManagementPage.xaml)",
+      "Bash(Select-Object -First 10 LineNumber)"
     ],
     "deny": [],
     "ask": []

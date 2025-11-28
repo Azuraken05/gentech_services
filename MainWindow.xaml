@@ -12,10 +12,12 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="341*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <control:Sidebar/>
-        <pages:ServiceManagementPage Grid.Column="1" Margin="16,16,16,16"
-                                     Grid.ColumnSpan="4" MaxWidth="1000"/>
+        <control:Sidebar x:Name="SidebarControl" NavigationRequested="Sidebar_NavigationRequested"/>
+        <Frame x:Name="MainContentFrame"
+               Grid.Column="1"
+               Margin="16,16,16,16"
+               NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

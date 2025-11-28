@@ -31,5 +31,10 @@ namespace gentech_services.MVVM
         {
             execute(parameter);
         }
+
+        public void RaiseCanExecuteChanged()
+        {
+            CommandManager.InvalidateRequerySuggested();
+        }
     }
 }

@@ -1,0 +1,381 @@
+<UserControl x:Class="gentech_services.Views.Pages.ProductOrdersPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:gentech_services.Views.Pages"
+             mc:Ignorable="d"
+             d:DesignHeight="900" d:DesignWidth="1400" Background="#F5F5F5">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid Margin="32,24">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="24"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Side: Product Selection -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="24"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <TextBlock Grid.Row="0"
+                       Text="Point of Sale"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#1E1E1E"
+                       Margin="0,0,0,24"/>
+
+            <!-- Search and Filter -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0"
+                         Style="{StaticResource OutlineTextBox}"
+                         Tag="Search by name, category, or supplier..."
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                         Height="40"/>
+
+                <ComboBox Grid.Column="2"
+                          Style="{StaticResource OutlineComboBox}"
+                          SelectedValue="{Binding SelectedCategoryFilter}"
+                          SelectedValuePath="Content"
+                          Width="200"
+                          Height="40">
+                    <ComboBoxItem Content="All Categories" IsSelected="True"/>
+                    <ComboBoxItem Content="Laptop"/>
+                    <ComboBoxItem Content="Electronics"/>
+                    <ComboBoxItem Content="Accessories"/>
+                    <ComboBoxItem Content="Parts"/>
+                    <ComboBoxItem Content="Tools"/>
+                    <ComboBoxItem Content="Software"/>
+                </ComboBox>
+            </Grid>
+
+            <!-- Products Grid -->
+            <ScrollViewer Grid.Row="3"
+                          Style="{StaticResource CustomScrollViewer}"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding FilteredProducts}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="White"
+                                    BorderBrush="#E0E0E0"
+                                    BorderThickness="1"
+                                    CornerRadius="8"
+                                    Width="200"
+                                    Margin="0,0,16,16"
+                                    Padding="16"
+                                    Cursor="Hand"
+                                    MouseLeftButtonDown="ProductCard_Click">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="12"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="12"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Stock Status Badge -->
+                                    <Border Grid.Row="0"
+                                            CornerRadius="12"
+                                            Padding="8,4"
+                                            HorizontalAlignment="Left">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding StockStatus}" Value="In stock">
+                                                        <Setter Property="Background" Value="#E8F5E9"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding StockStatus}" Value="Low stock">
+                                                        <Setter Property="Background" Value="#FFF3E0"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding StockStatus}" Value="Out of stock">
+                                                        <Setter Property="Background" Value="#FFEBEE"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock FontSize="11" FontWeight="SemiBold">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding StockStatus}" Value="In stock">
+                                                            <Setter Property="Foreground" Value="#4CAF50"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding StockStatus}" Value="Low stock">
+                                                            <Setter Property="Foreground" Value="#FF9800"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding StockStatus}" Value="Out of stock">
+                                                            <Setter Property="Foreground" Value="#F44336"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                            <Run Text="{Binding StockStatus}"/>
+                                            <Run Text=" "/>
+                                            <Run Text="{Binding StockQuanity}"/>
+                                        </TextBlock>
+                                    </Border>
+
+                                    <!-- Product Name -->
+                                    <TextBlock Grid.Row="2"
+                                               Text="{Binding Name}"
+                                               FontSize="15"
+                                               FontWeight="SemiBold"
+                                               Foreground="#1E1E1E"
+                                               TextWrapping="Wrap"/>
+
+                                    <!-- Category -->
+                                    <TextBlock Grid.Row="4"
+                                               Text="{Binding CategoryName}"
+                                               FontSize="12"
+                                               Foreground="#666"/>
+
+                                    <!-- Price -->
+                                    <TextBlock Grid.Row="6"
+                                               Text="{Binding Price, StringFormat='₱ {0:N0}'}"
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Foreground="#0000FF"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- Right Side: Sales Cart -->
+        <Border Grid.Column="2"
+                Background="White"
+                BorderBrush="#E0E0E0"
+                BorderThickness="1"
+                CornerRadius="8"
+                Padding="24">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="16"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="16"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Cart Title -->
+                <TextBlock Grid.Row="0"
+                           Text="Sales Cart"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#1E1E1E"/>
+
+                <!-- Cart Items Table -->
+                <Border Grid.Row="2"
+                        BorderBrush="#E0E0E0"
+                        BorderThickness="1"
+                        CornerRadius="4">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Table Header -->
+                        <Border Grid.Row="0"
+                                Background="#F8F9FA"
+                                BorderBrush="#E0E0E0"
+                                BorderThickness="0,0,0,1"
+                                Padding="12,8">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="30"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="#" FontWeight="SemiBold" FontSize="12" Foreground="#666"/>
+                                <TextBlock Grid.Column="1" Text="Product" FontWeight="SemiBold" FontSize="12" Foreground="#666"/>
+                                <TextBlock Grid.Column="2" Text="Quantity" FontWeight="SemiBold" FontSize="12" Foreground="#666" TextAlignment="Center"/>
+                                <TextBlock Grid.Column="3" Text="Subtotal" FontWeight="SemiBold" FontSize="12" Foreground="#666" TextAlignment="Right"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Cart Items -->
+                        <ScrollViewer Grid.Row="1"
+                                      VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      MaxHeight="250">
+                            <ItemsControl ItemsSource="{Binding CartItems}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="#F0F0F0"
+                                                BorderThickness="0,0,0,1"
+                                                Padding="12,12">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="40"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="60"/>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="30"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <!-- Item Number -->
+                                                <TextBlock Grid.Column="0"
+                                                           Text="{Binding ItemNumber}"
+                                                           FontSize="13"
+                                                           Foreground="#666"
+                                                           VerticalAlignment="Center"/>
+
+                                                <!-- Product Name -->
+                                                <TextBlock Grid.Column="1"
+                                                           Text="{Binding ProductName}"
+                                                           FontSize="13"
+                                                           Foreground="#333"
+                                                           TextWrapping="Wrap"
+                                                           VerticalAlignment="Center"/>
+
+                                                <!-- Quantity -->
+                                                <TextBlock Grid.Column="2"
+                                                           Text="{Binding Quantity}"
+                                                           FontSize="13"
+                                                           Foreground="#333"
+                                                           TextAlignment="Center"
+                                                           VerticalAlignment="Center"/>
+
+                                                <!-- Subtotal -->
+                                                <TextBlock Grid.Column="3"
+                                                           Text="{Binding Subtotal, StringFormat='₱ {0:N0}'}"
+                                                           FontSize="13"
+                                                           Foreground="#333"
+                                                           FontWeight="SemiBold"
+                                                           TextAlignment="Right"
+                                                           VerticalAlignment="Center"/>
+
+                                                <!-- Remove Button -->
+                                                <Button Grid.Column="4"
+                                                        Content="×"
+                                                        FontSize="18"
+                                                        Foreground="#F44336"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Command="{Binding DataContext.RemoveFromCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}"
+                                                        Cursor="Hand"
+                                                        Width="24"
+                                                        Height="24"
+                                                        Padding="0"
+                                                        VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+
+                <!-- Total -->
+                <Grid Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="Total"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="#1E1E1E"
+                               VerticalAlignment="Center"/>
+
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding TotalAmount, StringFormat='₱ {0:N0}'}"
+                               FontSize="22"
+                               FontWeight="Bold"
+                               Foreground="#0000FF"
+                               VerticalAlignment="Center"/>
+                </Grid>
+
+                <!-- Buttons -->
+                <Grid Grid.Row="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            Content="Cancel"
+                            Style="{StaticResource OutlineButton}"
+                            Command="{Binding CancelOrderCommand}"
+                            Height="40"/>
+
+                    <Button Grid.Column="2"
+                            Content="Process Payment"
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding ProcessPaymentCommand}"
+                            Height="40"/>
+                </Grid>
+
+                <!-- Customer Information -->
+                <StackPanel Grid.Row="8">
+                    <TextBlock Text="Customer Information"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="#1E1E1E"
+                               Margin="0,0,0,12"/>
+
+                    <TextBox Style="{StaticResource OutlineTextBox}"
+                             Tag="Enter customer's name"
+                             Text="{Binding CustomerName, UpdateSourceTrigger=PropertyChanged}"
+                             Height="40"/>
+                </StackPanel>
+
+                <!-- Empty Cart Message -->
+                <StackPanel Grid.Row="2"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Visibility="{Binding IsCartEmpty, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="Cart is empty"
+                               FontSize="16"
+                               Foreground="#999"
+                               TextAlignment="Center"
+                               Margin="0,0,0,8"/>
+                    <TextBlock Text="Click on products to add them"
+                               FontSize="13"
+                               Foreground="#CCC"
+                               TextAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

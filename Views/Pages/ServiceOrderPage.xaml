@@ -25,9 +25,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        <StackPanel Margin="12" MaxWidth="800">
+        <StackPanel Margin="12">
             <TextBlock Text="Set Appointment" FontWeight="SemiBold"
                        FontSize="28" Margin="0,0,0,12"/>
 
@@ -104,7 +104,7 @@
             </StackPanel>
         </StackPanel>
         <control:ServiceOrdersTable Grid.Row="1"
-                           MaxWidth="830"
+                          
                            ServiceOrders="{Binding ServiceOrders}"
                            ViewModel="{Binding}"/>
 
