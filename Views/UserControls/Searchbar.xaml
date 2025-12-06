@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:gentech_services.Views.UserControls"
              mc:Ignorable="d" 
+             d:DesignWidth="500"
              >
     
-    <Border Padding="5,5" Background="#F3F3F5" Width="276" Height="32" CornerRadius="6.75">
+    <Border Padding="5,5" Background="#F3F3F5"  Height="32" CornerRadius="6.75">
         <Grid >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20"/>
