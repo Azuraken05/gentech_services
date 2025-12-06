@@ -474,7 +474,7 @@ namespace gentech_services.ViewsModels
                 PhoneError = "Phone number is required";
             }
             else if (!System.Text.RegularExpressions.Regex.IsMatch(customerPhone,
-                @"^[\d\s\-\(\)\+]+$"))
+                 @"^(?:\+63|63|0)(?:9\d{9}|(2|[3-8]\d)\d{7})$"))
             {
                 PhoneError = "Invalid phone number format";
             }
