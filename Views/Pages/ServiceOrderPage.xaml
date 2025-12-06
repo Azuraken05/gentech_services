@@ -57,7 +57,8 @@
             <!-- Services Selection -->
             <Border x:Name="ServicesDropdownBorder"
                     BorderBrush="Black" BorderThickness="1" CornerRadius="8" Height="32" Margin="0,0,0,5"
-                    MouseLeftButtonDown="ServicesDropdown_Click">
+                    Background="Transparent"
+                    MouseLeftButtonUp="ServicesDropdown_Click">
                 <Grid>
                     <TextBlock x:Name="SelectedServicesText"
                                Text="Select Services"

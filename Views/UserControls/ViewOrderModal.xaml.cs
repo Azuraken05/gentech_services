@@ -20,7 +20,7 @@ namespace gentech_services.Views.UserControls
 
             // Set order details
             OrderIdText.Text = $"#S{order.SaleID:000}";
-            CreatedDateText.Text = $"Appointment: {order.AppointmentDate:MM/dd/yyyy}";
+            CreatedDateText.Text = $"Created: {order.AppointmentDate:MM/dd/yyyy}";
 
             // Set status badge
             StatusText.Text = order.Status;
@@ -34,12 +34,25 @@ namespace gentech_services.Views.UserControls
                 CustomerPhoneText.Text = order.Customer.Phone ?? "N/A";
             }
 
-            // Service details
+            // Clear existing services
+            ServiceOrdersList.Children.Clear();
+
+            // Service details - for now showing single service, can be extended to multiple services
             if (order.Service != null)
             {
-                ServiceTypeText.Text = order.Service.Name ?? "N/A";
-                DeviceText.Text = order.Service.Category?.Name ?? "N/A";
+                var serviceText = new TextBlock
+                {
+                    Text = order.Service.Name ?? "N/A",
+                    FontSize = 13,
+                    Margin = new Thickness(0, 0, 0, 6)
+                };
+                ServiceOrdersList.Children.Add(serviceText);
+
                 CostText.Text = $"₱ {order.Service.Price:N0}";
+            }
+            else
+            {
+                CostText.Text = "₱ 0";
             }
 
             // Technician
@@ -47,8 +60,12 @@ namespace gentech_services.Views.UserControls
             {
                 TechnicianText.Text = order.Technician.Name ?? "Unassigned";
             }
+            else
+            {
+                TechnicianText.Text = "Unassigned";
+            }
 
-            // Description (using issue description if available, otherwise service description)
+            // Description - using service description
             DescriptionText.Text = order.Service?.Description ?? "No description available";
 
             // Show the modal

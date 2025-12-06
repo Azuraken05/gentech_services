@@ -109,6 +109,7 @@ namespace gentech_services.Views.Pages
             {
                 ServicesPopup.IsOpen = false;
             }
+            e.Handled = true;
         }
 
         private void ServicesPopup_Closed(object sender, EventArgs e)

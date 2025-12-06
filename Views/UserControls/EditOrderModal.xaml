@@ -4,157 +4,146 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:gentech_services.Views.UserControls"
+             xmlns:f="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="850"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch">
+
     <UserControl.Resources>
-        <Style TargetType="TextBlock" x:Key="LabelText">
-            <Setter Property="Foreground" Value="#888888"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,0,0,8"/>
+        <SolidColorBrush x:Key="BlueAccent" Color="#0047FF"/>
+        <SolidColorBrush x:Key="OngoingColor" Color="#FFB800"/>
+        <SolidColorBrush x:Key="CompletedColor" Color="#00C040"/>
+        <SolidColorBrush x:Key="CancelColor" Color="#FF0000"/>
+
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="0,0,0,10"/>
         </Style>
-        <Style TargetType="TextBox" x:Key="EditTextBox" BasedOn="{StaticResource OutlineTextBox}">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Margin" Value="0,0,0,12"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="BorderBrush" Value="Black"/>
-        </Style>
-        <Style TargetType="ComboBox" x:Key="EditComboBox" BasedOn="{StaticResource OutlineComboBox}">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Margin" Value="0,0,0,12"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="BorderBrush" Value="Black"/>
-        </Style>
-        <Style TargetType="DatePicker" x:Key="EditDatePicker" BasedOn="{StaticResource OutlineDatePicker}">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Margin" Value="0,0,0,12"/>
-            <Setter Property="Height" Value="35"/>
-        </Style>
+
+        <f:DesignData x:Key="ServiceItems">
+            <local:ServiceItem ServiceName="OS Install" Price="5999.00" StatusText="Set to Ongoing" StatusButtonBackground="{StaticResource OngoingColor}"/>
+            <local:ServiceItem ServiceName="OS Install" Price="5999.00" StatusText="Set to Ongoing" StatusButtonBackground="{StaticResource OngoingColor}"/>
+            <local:ServiceItem ServiceName="OS Install" Price="5999.00" StatusText="Set to Completed" StatusButtonBackground="{StaticResource CompletedColor}"/>
+        </f:DesignData>
+
     </UserControl.Resources>
 
-    <!-- Modal Overlay -->
-    <Grid x:Name="ModalOverlay" Background="#80000000" Visibility="Collapsed">
+    <Grid x:Name="ModalOverlay" Background="#80000000" Visibility="Collapsed" d:Visibility="Visible">
         <Border Background="White"
                 CornerRadius="8"
                 MaxWidth="850"
-                MaxHeight="400"
+                MaxHeight="650"
                 Margin="40"
-                Padding="24">
+                Padding="30">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Header -->
-                <Grid Grid.Row="0" Margin="0,0,0,20">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="View Order" FontSize="20" FontWeight="SemiBold" Margin="0,0,12,0"/>
-                        <TextBlock x:Name="OrderIdText" Text="#S001" FontSize="20" FontWeight="SemiBold"/>
+                <ListView Grid.Row="3"
+                          x:Name="ServicesListView"
+                          BorderThickness="0"  Background="Transparent"
+                          SelectionMode="Single"
+                          Margin="0,0,0,15"
+                          ItemsSource="{f:DesignData Source={StaticResource ServiceItems}}">
+                    <ListView.Resources>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.Resources>
 
-                        <Border x:Name="StatusBadge" Background="#FFE5E5" CornerRadius="12" Padding="12,4" Margin="40,0,0,0">
-                            <TextBlock x:Name="StatusText" Text="Ongoing" FontSize="12" Foreground="#FF4444"/>
-                        </Border>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Service Name" Width="220">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ServiceName}" FontWeight="Bold" FontSize="16"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
 
-                        <Border Background="White" BorderBrush="#E0E0E0" BorderThickness="1"
-                                CornerRadius="12" Padding="12,4" Margin="20,0,0,0">
-                            <TextBlock x:Name="CreatedDateText" Text="Created: 02/11/2025"
-                                       FontSize="12" Foreground="#888888"
-                                       VerticalAlignment="Center"/>
-                        </Border>
-                    </StackPanel>
+                            <GridViewColumn Header="Price" Width="150">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Price, StringFormat='₱ {0:N2}'}" FontSize="16"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
 
-                    <Button Content="✕"
-                            FontSize="18"
-                            Width="32"
-                            Height="32"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Cursor="Hand"
-                            Click="CloseButton_Click"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border Background="{TemplateBinding Background}"
-                                                    CornerRadius="4">
-                                                <ContentPresenter HorizontalAlignment="Center"
-                                                                VerticalAlignment="Center"/>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#F0F0F0"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </Grid>
+                            <GridViewColumn Header="Status" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding StatusText}"
+                                                Background="{Binding StatusButtonBackground}"
+                                                Foreground="Black" Padding="12,6"
+                                                BorderThickness="0"
+                                                FontWeight="SemiBold"
+                                                FontSize="12"
+                                                Click="StatusButton_Click"
+                                                Tag="{Binding}"
+                                                Style="{StaticResource OutlineButton}"
+                                                HorizontalAlignment="Left">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
 
-                <!-- Content -->
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                            <GridViewColumn Header="Action" Width="150">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Cancel"
+                                                Background="{StaticResource CancelColor}"
+                                                Foreground="White"
+                                                Padding="12,6"
+                                                BorderThickness="0"
+                                                FontWeight="SemiBold"
+                                                FontSize="12"
+                                                Click="CancelService_Click"
+                                                Tag="{Binding}"
+                                                Style="{StaticResource OutlineButton}"
+                                                HorizontalAlignment="Left">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
 
-                        <!-- Customer Section -->
-                        <Border Grid.Column="0" BorderBrush="#E0E0E0" BorderThickness="1"
-                                CornerRadius="4" Padding="16">
-                            <StackPanel>
-                                <TextBlock Text="Customer" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,16"/>
-
-                                <TextBlock Text="First Name" Style="{StaticResource LabelText}"/>
-                                <TextBox x:Name="CustomerFirstNameTextBox" Text="Keith" Style="{StaticResource EditTextBox}"/>
-
-                                <TextBlock Text="Last Name" Style="{StaticResource LabelText}"/>
-                                <TextBox x:Name="CustomerLastNameTextBox" Text="Soriano" Style="{StaticResource EditTextBox}"/>
-
-                                <TextBlock Text="Email" Style="{StaticResource LabelText}"/>
-                                <TextBox x:Name="CustomerEmailTextBox" Text="soriano@gmail.com" Style="{StaticResource EditTextBox}"/>
-
-                                <TextBlock Text="Contact No." Style="{StaticResource LabelText}"/>
-                                <TextBox x:Name="CustomerPhoneTextBox" Text="0939-654-2275" Style="{StaticResource EditTextBox}"/>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Service Details Section -->
-                        <Border Grid.Column="2" BorderBrush="#E0E0E0" BorderThickness="1"
-                                CornerRadius="4" Padding="16">
-                            <StackPanel>
-                                <TextBlock Text="Service Details" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,16"/>
-
-                                <TextBlock Text="Service Type" Style="{StaticResource LabelText}"/>
-                                <ComboBox x:Name="ServiceTypeComboBox" Style="{StaticResource EditComboBox}"
-                                          DisplayMemberPath="Name"/>
-
-                                <TextBlock Text="Device" Style="{StaticResource LabelText}"/>
-                                <TextBox x:Name="DeviceTextBox" Text="Motherboard" Style="{StaticResource EditTextBox}"/>
-
-                                <TextBlock Text="Technician" Style="{StaticResource LabelText}"/>
-                                <ComboBox x:Name="TechnicianComboBox" Style="{StaticResource EditComboBox}"
-                                          DisplayMemberPath="Name"
-                                          MaxDropDownHeight="150"/>
-
-                                <TextBlock Text="Cost" Style="{StaticResource LabelText}"/>
-                                <TextBox x:Name="CostTextBox" Text="5999" Style="{StaticResource EditTextBox}"/>
-
-                                <TextBlock Text="Appointment Date" Style="{StaticResource LabelText}"/>
-                                <DatePicker x:Name="AppointmentDatePicker"
-                                            Style="{StaticResource EditDatePicker}"/>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </ScrollViewer>
             </Grid>
         </Border>
     </Grid>

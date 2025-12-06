@@ -123,26 +123,45 @@
                                VerticalAlignment="Center"/>
                                     <Border Grid.Column="5" VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
-                                Padding="6,2,6,2"
-                                Background="#190000FF" CornerRadius="8">
+                                Padding="8,4,8,4"
+                                CornerRadius="12">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Status}" Value="Completed">
+                                                        <Setter Property="Background" Value="#E5F8E5"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}" Value="Cancelled">
+                                                        <Setter Property="Background" Value="#F0F0F0"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}" Value="Pending">
+                                                        <Setter Property="Background" Value="#FFF4E5"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Status}" Value="Ongoing">
+                                                        <Setter Property="Background" Value="#FFE5E5"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <Binding Path="Status"/>
                                             </TextBlock.Text>
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
+                                                    <Setter Property="FontWeight" Value="SemiBold"/>
                                                     <Style.Triggers>
                                                         <Trigger Property="Text" Value="Completed">
-                                                            <Setter Property="Foreground" Value="#00C206"/>
+                                                            <Setter Property="Foreground" Value="#44AA44"/>
                                                         </Trigger>
                                                          <Trigger Property="Text" Value="Cancelled">
-                                                            <Setter Property="Foreground" Value="#FF0000"/>
+                                                            <Setter Property="Foreground" Value="#888888"/>
                                                         </Trigger>
                                                          <Trigger Property="Text" Value="Pending">
-                                                            <Setter Property="Foreground" Value="#0000FF"/>
+                                                            <Setter Property="Foreground" Value="#FF8800"/>
                                                         </Trigger>
                                                           <Trigger Property="Text" Value="Ongoing">
-                                                            <Setter Property="Foreground" Value="#FFA500"/>
+                                                            <Setter Property="Foreground" Value="#FF4444"/>
                                                         </Trigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -183,44 +202,11 @@
                                                                         FontWeight="Normal"
                                                                         BorderThickness="0"
                                                                         Height="32"
-                                                                        Margin="0,0,0,4"
+                                                                        Margin="0"
                                                                         HorizontalContentAlignment="Left"
                                                                         Click="EditMenuItem_Click"
                                                                         Tag="8"
                                                                         Visibility="{Binding Tag.Status, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource StatusToEditVisibilityConverter}}"/>
-                                                                <Button Content="Set to Ongoing"
-                                                                        Style="{StaticResource OutlineButton}"
-                                                                        Background="#FFA500"
-                                                                        Foreground="White"
-                                                                        FontWeight="SemiBold"
-                                                                        BorderThickness="0"
-                                                                        Height="32"
-                                                                        Margin="0,0,0,4"
-                                                                        Click="SetOngoingMenuItem_Click"
-                                                                        Tag="8"
-                                                                        Visibility="{Binding Tag.Status, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource StatusToSetOngoingVisibilityConverter}}"/>
-                                                                <Button Content="Set to Completed"
-                                                                        Style="{StaticResource OutlineButton}"
-                                                                        Background="#00C206"
-                                                                        Foreground="White"
-                                                                        FontWeight="SemiBold"
-                                                                        BorderThickness="0"
-                                                                        Height="32"
-                                                                        Margin="0,0,0,4"
-                                                                        Click="SetCompletedMenuItem_Click"
-                                                                        Tag="8"
-                                                                        Visibility="{Binding Tag.Status, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource StatusToSetCompletedVisibilityConverter}}"/>
-                                                                <Button Content="Cancel Order"
-                                                                        Style="{StaticResource OutlineButton}"
-                                                                        Background="#0000FF"
-                                                                        Foreground="White"
-                                                                        FontWeight="SemiBold"
-                                                                        BorderThickness="0"
-                                                                        Height="32"
-                                                                        Margin="0"
-                                                                        Click="CancelOrderMenuItem_Click"
-                                                                        Tag="8"
-                                                                        Visibility="{Binding Tag.Status, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource StatusToCancelVisibilityConverter}}"/>
                                                             </StackPanel>
                                                         </Border>
                                                     </ControlTemplate>

@@ -1,257 +1,276 @@
-﻿<UserControl x:Class="gentech_services.Views.Pages.DashboardPage"
+﻿
+<UserControl x:Class="gentech_services.Views.Pages.DashboardPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="gentech_services.Views.Pages"
-             mc:Ignorable="d"
-             d:DesignHeight="1050" d:DesignWidth="850" Background="White">
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:gentech_services.ViewsModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="1200" d:DesignWidth="1000"
+             Background="#F8F9FB" FontFamily="Segoe UI">
+
     <UserControl.Resources>
-        <!-- Card Shadow Effect -->
-        <DropShadowEffect x:Key="CardShadow"
-                          BlurRadius="10"
-                          ShadowDepth="2"
-                          Opacity="0.3"
-                          Color="#000000"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#1F2937"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#6B7280"/>
+        <SolidColorBrush x:Key="CardBackground" Color="White"/>
+        
+        <DropShadowEffect x:Key="SoftShadow" BlurRadius="10" ShadowDepth="1" Direction="270" Opacity="0.05" Color="Black"/>
 
-        <!-- Stat Card Style -->
-        <Style x:Key="StatCard" TargetType="Border">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="CornerRadius" Value="12"/>
-            <Setter Property="Padding" Value="16"/>
-            <Setter Property="Effect" Value="{StaticResource CardShadow}"/>
-            <Setter Property="Margin" Value="8"/>
+        <Style x:Key="DashboardCard" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource CardBackground}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="0,0,15,15"/>
+            <Setter Property="Effect" Value="{StaticResource SoftShadow}"/>
         </Style>
 
-        <!-- Quick Access Button Style -->
-        <Style x:Key="QuickAccessButton" TargetType="Button" BasedOn="{StaticResource OutlineButton}">
-            <Setter Property="Height" Value="50"/>
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#0000FF"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Foreground" Value="#0000FF"/>
-            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
         </Style>
+
+        <Style x:Key="QuickAccessBtn" TargetType="Button">
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="0,0,15,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Path Fill="White" Data="{TemplateBinding Tag}" HorizontalAlignment="Center" Height="20" Width="20" Stretch="Uniform" Margin="0,0,0,8"/>
+                                <ContentPresenter HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Geometry x:Key="Icon_Chart">M16 6l-6 6-3-3-5 5M21 6V12M21 6H15</Geometry>
+        <Geometry x:Key="Icon_Alert">M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z</Geometry>
+        <Geometry x:Key="Icon_Wrench">M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z</Geometry>
+        <Geometry x:Key="Icon_Cart">M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z</Geometry>
+        <Geometry x:Key="Icon_Box">M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4</Geometry>
+        <Geometry x:Key="Icon_User">M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z</Geometry>
+
     </UserControl.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{StaticResource CustomScrollViewer}">
-        <StackPanel Margin="20">
-            <!-- Header -->
-            <TextBlock Text="Dashboard" FontSize="28" FontWeight="Bold" Margin="0,0,0,4"/>
-            <TextBlock Text="Overview of your business" FontSize="14" Foreground="#666" Margin="0,0,0,20"/>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="40">
+        <StackPanel>
+            
+            <StackPanel Margin="0,0,0,30">
+                <TextBlock Text="Admin Dashboard" FontSize="24" FontWeight="Bold" Foreground="{StaticResource TextPrimary}"/>
+                <TextBlock Text="Monitor your business performance and manage operations" FontSize="14" Foreground="{StaticResource TextSecondary}" Margin="0,5,0,0"/>
+            </StackPanel>
 
-            <!-- Stats Cards -->
-            <UniformGrid Rows="1" Columns="4" Margin="0,0,0,20">
-                <!-- Today's Sales -->
-                <Border Style="{StaticResource StatCard}">
-                    <StackPanel>
-                        <TextBlock Text="Today's Sales" FontSize="12" Foreground="#666" Margin="0,0,0,8"/>
-                        <TextBlock Text="{Binding TodaysSales, StringFormat=₱ {0:N2}}"
-                                   FontSize="24" FontWeight="Bold" Foreground="#00C206"/>
-                    </StackPanel>
+            <UniformGrid Columns="4" Margin="0,0,-15,15">
+                <Border Style="{StaticResource DashboardCard}">
+                    <Grid>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Today's Sales" FontSize="12" Foreground="{StaticResource TextSecondary}"/>
+                            <TextBlock Text="{Binding TodaysSales, StringFormat=₱{0:N0}}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimary}" Margin="0,5,0,0"/>
+                        </StackPanel>
+                        <Border Width="40" Height="40" CornerRadius="20" Background="#DCFCE7" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <Path Data="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" Stroke="#22C55E" StrokeThickness="2" Width="16" Height="16" Stretch="Uniform"/>
+                        </Border>
+                    </Grid>
                 </Border>
 
-                <!-- Low Stock Items -->
-                <Border Style="{StaticResource StatCard}">
-                    <StackPanel>
-                        <TextBlock Text="Low Stock Items" FontSize="12" Foreground="#666" Margin="0,0,0,8"/>
-                        <TextBlock Text="{Binding LowStockCount}"
-                                   FontSize="24" FontWeight="Bold" Foreground="#FF0000"/>
-                    </StackPanel>
+                <Border Style="{StaticResource DashboardCard}">
+                    <Grid>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Low Stock Items" FontSize="12" Foreground="{StaticResource TextSecondary}"/>
+                            <TextBlock Text="{Binding LowStockCount}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimary}" Margin="0,5,0,0"/>
+                        </StackPanel>
+                        <Border Width="40" Height="40" CornerRadius="20" Background="#FEF3C7" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <TextBlock Text="!" Foreground="#F59E0B" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
                 </Border>
 
-                <!-- Open Service Jobs -->
-                <Border Style="{StaticResource StatCard}">
-                    <StackPanel>
-                        <TextBlock Text="Open Service Jobs" FontSize="12" Foreground="#666" Margin="0,0,0,8"/>
-                        <TextBlock Text="{Binding OpenServiceJobs}"
-                                   FontSize="24" FontWeight="Bold" Foreground="#FFA500"/>
-                    </StackPanel>
+                <Border Style="{StaticResource DashboardCard}">
+                    <Grid>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Open Service Jobs" FontSize="12" Foreground="{StaticResource TextSecondary}"/>
+                            <TextBlock Text="{Binding OpenServiceJobs}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimary}" Margin="0,5,0,0"/>
+                        </StackPanel>
+                        <Border Width="40" Height="40" CornerRadius="20" Background="#DBEAFE" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <Path Data="{StaticResource Icon_Wrench}" Fill="#3B82F6" Width="16" Height="16" Stretch="Uniform"/>
+                        </Border>
+                    </Grid>
                 </Border>
 
-                <!-- Total Transactions -->
-                <Border Style="{StaticResource StatCard}">
-                    <StackPanel>
-                        <TextBlock Text="Total Transactions" FontSize="12" Foreground="#666" Margin="0,0,0,8"/>
-                        <TextBlock Text="{Binding TotalTransactions}"
-                                   FontSize="24" FontWeight="Bold" Foreground="#0000FF"/>
-                    </StackPanel>
+                <Border Style="{StaticResource DashboardCard}">
+                    <Grid>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Total Transactions" FontSize="12" Foreground="{StaticResource TextSecondary}"/>
+                            <TextBlock Text="Today" FontSize="10" Foreground="{StaticResource TextSecondary}"/>
+                            <TextBlock Text="{Binding TotalTransactions}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimary}" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <Border Width="40" Height="40" CornerRadius="20" Background="#DCFCE7" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <Path Data="{StaticResource Icon_Cart}" Fill="#22C55E" Width="16" Height="16" Stretch="Uniform"/>
+                        </Border>
+                    </Grid>
                 </Border>
             </UniformGrid>
 
-            <!-- Quick Access Buttons -->
-            <TextBlock Text="Quick Access" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,12"/>
-            <UniformGrid Rows="1" Columns="5" Margin="0,0,0,20">
-                <Button Content="POS" Style="{StaticResource QuickAccessButton}" Command="{Binding NavigateToPOSCommand}"/>
-                <Button Content="Inventory" Style="{StaticResource QuickAccessButton}" Command="{Binding NavigateToInventoryCommand}"/>
-                <Button Content="Product Orders" Style="{StaticResource QuickAccessButton}" Command="{Binding NavigateToProductOrdersCommand}"/>
-                <Button Content="Service Orders" Style="{StaticResource QuickAccessButton}" Command="{Binding NavigateToServiceOrdersCommand}"/>
-                <Button Content="Users" Style="{StaticResource QuickAccessButton}" Command="{Binding NavigateToUsersCommand}"/>
+            <TextBlock Text="Quick Access" Style="{StaticResource SectionTitle}"/>
+            <UniformGrid Columns="5" Margin="0,0,-15,30">
+                <Button Content="POS" Background="#3B82F6" Tag="{StaticResource Icon_Cart}" 
+                        Command="{Binding NavigateToPOSCommand}" Style="{StaticResource QuickAccessBtn}"/>
+                
+                <Button Content="Inventory" Background="#10B981" Tag="{StaticResource Icon_Box}" 
+                        Command="{Binding NavigateToInventoryCommand}" Style="{StaticResource QuickAccessBtn}"/>
+                
+                <Button Content="Product Orders" Background="#A855F7" Tag="{StaticResource Icon_Chart}" 
+                        Command="{Binding NavigateToProductOrdersCommand}" Style="{StaticResource QuickAccessBtn}"/>
+                
+                <Button Content="Service Orders" Background="#F97316" Tag="{StaticResource Icon_Wrench}" 
+                        Command="{Binding NavigateToServiceOrdersCommand}" Style="{StaticResource QuickAccessBtn}"/>
+                
+                <Button Content="Users" Background="#EC4899" Tag="{StaticResource Icon_User}" 
+                        Command="{Binding NavigateToUsersCommand}" Style="{StaticResource QuickAccessBtn}"/>
             </UniformGrid>
 
-            <!-- Two Column Layout -->
-            <Grid Margin="0,0,0,20">
+            <Grid Margin="0,0,0,30">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="15"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Low Stock Alert List -->
-                <Border Grid.Column="0" Style="{StaticResource StatCard}" Padding="0">
+                <Border Grid.Column="0" Style="{StaticResource DashboardCard}">
                     <StackPanel>
-                        <Border Background="#FF0000" CornerRadius="12,12,0,0" Padding="16,12">
-                            <TextBlock Text="Low Stock Alert" FontSize="16" FontWeight="SemiBold" Foreground="White"/>
-                        </Border>
-                        <ScrollViewer MaxHeight="300" VerticalScrollBarVisibility="Auto" Style="{StaticResource CustomScrollViewer}">
-                            <ItemsControl ItemsSource="{Binding LowStockItems}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border BorderBrush="#EEE" BorderThickness="0,0,0,1" Padding="16,12">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel Grid.Column="0">
-                                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13"/>
-                                                    <TextBlock Text="{Binding Brand}" FontSize="11" Foreground="#666"/>
-                                                </StackPanel>
-                                                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
-                                                    <TextBlock Text="{Binding Stock, StringFormat=Stock: {0}}"
-                                                               FontSize="12" FontWeight="Bold" Foreground="#FF0000"/>
-                                                </StackPanel>
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
-                    </StackPanel>
-                </Border>
+                        <TextBlock Text="Low Stock Alert List" Style="{StaticResource SectionTitle}"/>
+                        
+                        <Grid Margin="0,0,0,10">
+                            <TextBlock Text="Product" FontWeight="SemiBold" Foreground="{StaticResource TextSecondary}"/>
+                            <TextBlock Text="Stock" FontWeight="SemiBold" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Separator Background="#F3F4F6" Margin="0,0,0,10"/>
 
-                <!-- Recent Transactions -->
-                <Border Grid.Column="2" Style="{StaticResource StatCard}" Padding="0">
-                    <StackPanel>
-                        <Border Background="#0000FF" CornerRadius="12,12,0,0" Padding="16,12">
-                            <TextBlock Text="Recent Transactions" FontSize="16" FontWeight="SemiBold" Foreground="White"/>
-                        </Border>
-                        <ScrollViewer MaxHeight="300" VerticalScrollBarVisibility="Auto" Style="{StaticResource CustomScrollViewer}">
-                            <ItemsControl ItemsSource="{Binding RecentTransactions}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border BorderBrush="#EEE" BorderThickness="0,0,0,1" Padding="16,12">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel Grid.Column="0">
-                                                    <TextBlock FontWeight="SemiBold" FontSize="13">
-                                                        <TextBlock.Text>
-                                                            <MultiBinding StringFormat="{}{0} {1}">
-                                                                <Binding Path="Customer.FirstName"/>
-                                                                <Binding Path="Customer.LastName"/>
-                                                            </MultiBinding>
-                                                        </TextBlock.Text>
-                                                    </TextBlock>
-                                                    <TextBlock Text="{Binding SaleDate, StringFormat=dd/MM/yyyy HH:mm}"
-                                                               FontSize="11" Foreground="#666"/>
-                                                </StackPanel>
-                                                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
-                                                    <TextBlock Text="{Binding TotalAmount, StringFormat=₱ {0:N2}}"
-                                                               FontSize="13" FontWeight="Bold" Foreground="#00C206"/>
-                                                    <TextBlock Text="{Binding SaleType}" FontSize="10" Foreground="#666" HorizontalAlignment="Right"/>
-                                                </StackPanel>
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
-                    </StackPanel>
-                </Border>
-            </Grid>
-
-            <!-- Pending/Ongoing Services -->
-            <Border Style="{StaticResource StatCard}" Padding="0">
-                <StackPanel>
-                    <Border Background="#FFA500" CornerRadius="12,12,0,0" Padding="16,12">
-                        <TextBlock Text="Pending/Ongoing Services" FontSize="16" FontWeight="SemiBold" Foreground="White"/>
-                    </Border>
-                    <ScrollViewer MaxHeight="300" VerticalScrollBarVisibility="Auto" Style="{StaticResource CustomScrollViewer}">
-                        <ItemsControl ItemsSource="{Binding PendingServiceJobs}">
+                        <ItemsControl ItemsSource="{Binding LowStockItems}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border BorderBrush="#EEE" BorderThickness="0,0,0,1" Padding="16,12">
+                                    <Grid Margin="0,0,0,15">
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Foreground="{StaticResource TextPrimary}"/>
+                                        <Border HorizontalAlignment="Right" Background="#FEF3C7" CornerRadius="12" Width="24" Height="24">
+                                            <TextBlock Text="{Binding Stock}" Foreground="#D97706" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <TextBlock Text="Click an item to view in inventory" FontSize="12" Foreground="{StaticResource TextSecondary}" Margin="0,10,0,0" FontStyle="Italic"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource DashboardCard}">
+                    <StackPanel>
+                        <TextBlock Text="Recent Transactions" Style="{StaticResource SectionTitle}"/>
+
+                        <ItemsControl ItemsSource="{Binding RecentTransactions}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="#E5E7EB" BorderThickness="1" CornerRadius="6" Padding="15,10" Margin="0,0,0,10">
                                         <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <!-- Order ID -->
-                                            <TextBlock Grid.Column="0"
-                                                       Text="{Binding SaleID, StringFormat=S{0:000}}"
-                                                       FontWeight="Bold"
-                                                       FontSize="13"
-                                                       Margin="0,0,16,0"
-                                                       VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding SaleID, StringFormat=PO-{0:000}}" FontWeight="SemiBold" Foreground="{StaticResource TextPrimary}"/>
+                                            
+                                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding TotalAmount, StringFormat=₱{0:N0}}" FontSize="13" Foreground="{StaticResource TextSecondary}" Margin="0,2,0,0"/>
 
-                                            <!-- Customer Info -->
-                                            <StackPanel Grid.Column="1">
-                                                <TextBlock FontWeight="SemiBold" FontSize="13">
-                                                    <TextBlock.Text>
-                                                        <MultiBinding StringFormat="{}{0} {1}">
-                                                            <Binding Path="Customer.FirstName"/>
-                                                            <Binding Path="Customer.LastName"/>
-                                                        </MultiBinding>
-                                                    </TextBlock.Text>
-                                                </TextBlock>
-                                                <TextBlock Text="{Binding Service.Name}" FontSize="11" Foreground="#666"/>
-                                            </StackPanel>
-
-                                            <!-- Status -->
-                                            <Border Grid.Column="2"
-                                                    VerticalAlignment="Center"
-                                                    Padding="8,4"
-                                                    Background="#190000FF"
-                                                    CornerRadius="8"
-                                                    Margin="8,0">
-                                                <TextBlock Text="{Binding Status}" FontSize="11" FontWeight="SemiBold">
-                                                    <TextBlock.Style>
-                                                        <Style TargetType="TextBlock">
-                                                            <Style.Triggers>
-                                                                <Trigger Property="Text" Value="Pending">
-                                                                    <Setter Property="Foreground" Value="#0000FF"/>
-                                                                </Trigger>
-                                                                <Trigger Property="Text" Value="Ongoing">
-                                                                    <Setter Property="Foreground" Value="#FFA500"/>
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </TextBlock.Style>
-                                                </TextBlock>
+                                            <Border Grid.RowSpan="2" Grid.Column="1" Background="#DCFCE7" CornerRadius="4" Padding="8,2" VerticalAlignment="Center">
+                                                <TextBlock Text="Paid" FontSize="11" FontWeight="Bold" Foreground="#15803D"/>
                                             </Border>
-
-                                            <!-- Date -->
-                                            <TextBlock Grid.Column="3"
-                                                       Text="{Binding AppointmentDate, StringFormat=dd/MM/yyyy}"
-                                                       FontSize="12"
-                                                       Foreground="#666"
-                                                       VerticalAlignment="Center"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </ScrollViewer>
+
+                        <TextBlock Text="Click a transaction to view order history" FontSize="12" Foreground="{StaticResource TextSecondary}" Margin="0,5,0,0" FontStyle="Italic"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Border Style="{StaticResource DashboardCard}">
+                <StackPanel>
+                    <TextBlock Text="Pending / Ongoing Services" Style="{StaticResource SectionTitle}"/>
+
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Service ID" FontWeight="Bold" Foreground="{StaticResource TextSecondary}"/>
+                        <TextBlock Grid.Column="1" Text="Description" FontWeight="Bold" Foreground="{StaticResource TextSecondary}"/>
+                        <TextBlock Grid.Column="2" Text="Status" FontWeight="Bold" Foreground="{StaticResource TextSecondary}"/>
+                        <TextBlock Grid.Column="3" Text="Technician" FontWeight="Bold" Foreground="{StaticResource TextSecondary}"/>
+                    </Grid>
+                    <Separator Background="#F3F4F6" Margin="0,0,0,10"/>
+
+                    <ItemsControl ItemsSource="{Binding PendingServiceJobs}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.5*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="1.5*"/>
+                                        <ColumnDefinition Width="1.5*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="{Binding SaleID, StringFormat=SRV-{0:000}}" VerticalAlignment="Center" Foreground="{StaticResource TextPrimary}"/>
+                                    
+                                    <TextBlock Grid.Column="1" Text="{Binding Service.Name}" VerticalAlignment="Center" Foreground="{StaticResource TextPrimary}"/>
+                                    
+                                    <Border Grid.Column="2" HorizontalAlignment="Left" CornerRadius="10" Padding="10,4">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="#FEF3C7"/> <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Status}" Value="Ongoing">
+                                                        <Setter Property="Background" Value="#DBEAFE"/> </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock Text="{Binding Status}" FontSize="11" FontWeight="Bold">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="#D97706"/> <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Ongoing">
+                                                            <Setter Property="Foreground" Value="#2563EB"/> </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Border>
+                                    
+                                    <TextBlock Grid.Column="3" Text="{Binding Customer.FirstName}" VerticalAlignment="Center" Foreground="{StaticResource TextSecondary}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    
+                    <TextBlock Text="Monitor technician workload and service progress" FontSize="12" Foreground="{StaticResource TextSecondary}" Margin="0,10,0,0" FontStyle="Italic"/>
                 </StackPanel>
             </Border>
+
         </StackPanel>
     </ScrollViewer>
 </UserControl>

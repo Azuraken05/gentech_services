@@ -1,4 +1,5 @@
-using gentech_services.Helpers;
+using gentech_services.Models;
+using gentech_services.MVVM;
 using ProductServicesManagementSystem.Models;
 using System;
 using System.Collections.ObjectModel;
@@ -84,77 +85,28 @@ namespace gentech_services.ViewsModels
 
         private void LoadDashboardData()
         {
-            // Load today's sales
-            var today = DateTime.Today;
-            var todaySales = SaleManager.GetAllSales()
-                .Where(s => s.SaleDate.Date == today && s.SaleType == "Product")
-                .ToList();
-            TodaysSales = todaySales.Sum(s => s.TotalAmount);
-
-            // Load low stock items (stock <= 10)
-            var lowStock = ProductManager.GetAllProducts()
-                .Where(p => p.Stock <= 10)
-                .OrderBy(p => p.Stock)
-                .ToList();
-            LowStockItems.Clear();
-            foreach (var product in lowStock)
-            {
-                LowStockItems.Add(product);
-            }
-            LowStockCount = lowStock.Count;
-
-            // Load open service jobs
-            var serviceJobs = SaleManager.GetAllSales()
-                .Where(s => s.SaleType == "Service" && (s.Status == "Pending" || s.Status == "Ongoing"))
-                .OrderByDescending(s => s.SaleDate)
-                .ToList();
-            OpenServiceJobs = serviceJobs.Count;
-
-            PendingServiceJobs.Clear();
-            foreach (var job in serviceJobs)
-            {
-                PendingServiceJobs.Add(job);
-            }
-
-            // Load total transactions count
-            TotalTransactions = SaleManager.GetAllSales().Count;
-
-            // Load recent transactions (last 10)
-            var recent = SaleManager.GetAllSales()
-                .OrderByDescending(s => s.SaleDate)
-                .Take(10)
-                .ToList();
-            RecentTransactions.Clear();
-            foreach (var transaction in recent)
-            {
-                RecentTransactions.Add(transaction);
-            }
+       
         }
 
         private void NavigateToPOS(object parameter)
         {
-            // Navigation logic will be implemented by MainWindow
-            MainWindow.Instance?.NavigateToPage("POS");
+        
         }
 
         private void NavigateToInventory(object parameter)
         {
-            MainWindow.Instance?.NavigateToPage("Inventory");
         }
 
         private void NavigateToProductOrders(object parameter)
         {
-            MainWindow.Instance?.NavigateToPage("ProductOrders");
         }
 
         private void NavigateToServiceOrders(object parameter)
         {
-            MainWindow.Instance?.NavigateToPage("ServiceOrders");
         }
 
         private void NavigateToUsers(object parameter)
         {
-            MainWindow.Instance?.NavigateToPage("Users");
         }
 
         protected void OnPropertyChanged(string propertyName)

@@ -119,6 +119,7 @@
                             <Grid>
                                 <TextBlock x:Name="PlaceholderText"
                                        Text="{TemplateBinding Tag}"
+                                       FontSize="{TemplateBinding FontSize}"
                                        Foreground="#999999"
                                        IsHitTestVisible="False"
                                        Margin="6,8,6,0"
@@ -170,6 +171,7 @@
                             <Grid>
                                 <TextBlock x:Name="PlaceholderText"
                                        Text="{TemplateBinding Tag}"
+                                       FontSize="{TemplateBinding FontSize}"
                                        Foreground="#999999"
                                        IsHitTestVisible="False"
                                        Margin="6,8,6,0"
