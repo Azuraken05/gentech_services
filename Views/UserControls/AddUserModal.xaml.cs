@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace gentech_services.Views.Pages
+namespace gentech_services.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for UserManagementPage.xaml
+    /// Interaction logic for AddUserModal.xaml
     /// </summary>
-    public partial class UserManagementPage : UserControl
+    public partial class AddUserModal : UserControl
     {
-        public UserManagementPage()
+        public AddUserModal()
         {
             InitializeComponent();
         }

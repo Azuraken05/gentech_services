@@ -619,18 +619,13 @@ namespace gentech_services.ViewsModels
             // Create service orders for each service with single technician
             foreach (var orderServiceItem in OrderServices)
             {
-                var serviceOrder = new ServiceOrder
-                {
-                    SaleID = allServiceOrders.Count + 1,
-                    Customer = customer,
-                    Service = orderServiceItem.Service,
-                    AppointmentDate = SelectedDate.Value,
-                    Status = orderServiceItem.Status,
-                    PaymentMethod = "Not Set",
-                    Technician = SelectedTechnician == null || SelectedTechnician.Name == "All Technicians"
-                        ? new User { Name = "Unassigned" }
-                        : SelectedTechnician
-                };
+                SaleID = serviceOrders.Count + 1, // Simple ID generation
+                Customer = customer,
+                Service = SelectedService,
+                AppointmentDate = SelectedDate.Value,
+                Status = "Pending",
+                Technician = new User { Name = "Unassigned" } // Default technician
+            };
 
                 allServiceOrders.Add(serviceOrder);
                 serviceOrders.Add(serviceOrder);

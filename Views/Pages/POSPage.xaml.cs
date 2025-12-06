@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace gentech_services.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for UserManagementPage.xaml
+    /// Interaction logic for POSPage.xaml
     /// </summary>
-    public partial class UserManagementPage : UserControl
+    public partial class POSPage : UserControl
     {
-        public UserManagementPage()
+        public POSPage()
         {
             InitializeComponent();
         }

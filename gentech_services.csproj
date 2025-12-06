@@ -15,6 +15,7 @@
     <None Remove="Resources\Assets\Icons\dashboard_customize.png" />
     <None Remove="Resources\Assets\Icons\home_repair_service.png" />
     <None Remove="Resources\Assets\Icons\icnSearch.png" />
+    <None Remove="Resources\Assets\Icons\icnWarning.png" />
     <None Remove="Resources\Assets\Icons\logo.png" />
     <None Remove="Resources\Assets\Icons\minus.png" />
     <None Remove="Resources\Assets\Icons\plus.png" />
@@ -32,6 +33,9 @@
     <Resource Include="Resources\Assets\Icons\dashboard_customize.png" />
     <Resource Include="Resources\Assets\Icons\home_repair_service.png" />
     <Resource Include="Resources\Assets\Icons\icnSearch.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Assets\Icons\icnWarning.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Assets\Icons\logo.png" />

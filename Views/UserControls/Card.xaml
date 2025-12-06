@@ -6,8 +6,11 @@
              xmlns:local="clr-namespace:gentech_services.Views.UserControls"
              mc:Ignorable="d" 
              x:Name="root"
+             xmlns:conv="clr-namespace:gentech_services.Converters"
              >
     <UserControl.Resources>
+        <conv:StockStatusConverter x:Key="StockStatusConverter"/>
+        <conv:StockColorConverter x:Key="StockColorConverter"/>
         <Style TargetType="Border" x:Key="CardStyle">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="#1A000000"/>
@@ -24,16 +27,28 @@
         </Style>
     </UserControl.Resources>
     
-    <Border x:Name="BorderContainer" Padding="20" Height="100" MinWidth="200" Width="220" Margin="0,10,10,0" Style="{StaticResource CardStyle}">
-        <Grid>
+    <Border x:Name="BorderContainer" Padding="15,10" Height="100" MinWidth="200" Width="220" Margin="0,10,10,0" Style="{StaticResource CardStyle}" >
+        <Grid VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="{Binding TextName, ElementName=root}"  Foreground="#0A0A0A" FontSize="12" LineHeight="17.5" TextAlignment="Left"/>
-            <TextBlock Grid.Row="1" Text="{Binding TextCategory, ElementName=root}" Foreground="#717182" FontSize="10" LineHeight="20" TextAlignment="Left"/>
-            <TextBlock Grid.Row="2" Text="{Binding TextPrice, ElementName=root, StringFormat=C2}" FontWeight="Bold" FontSize="14" LineHeight="28" TextAlignment="Left" />
+            <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch">
+                
+                <TextBlock  Text="{Binding TextStock, ElementName=root, Converter={StaticResource StockStatusConverter}}"  
+                            Foreground="{Binding TextStock, ElementName=root, Converter={StaticResource StockColorConverter}}" 
+                            FontSize="10" 
+                            LineHeight="14" 
+                            TextAlignment="Left" />
+
+                <TextBlock Text="{Binding TextStock, ElementName=root}" Margin="10,0,0,0" FontSize="10" LineHeight="14"/>
+            </StackPanel>
+            
+            <TextBlock Grid.Row="1" Text="{Binding TextName, ElementName=root}"  Foreground="#0A0A0A" FontSize="12" LineHeight="17.5" TextAlignment="Left" />
+            <TextBlock Grid.Row="2" Text="{Binding TextCategory, ElementName=root}" Foreground="#717182" FontSize="10" LineHeight="20" TextAlignment="Left"  />
+            <TextBlock Grid.Row="3" Text="{Binding TextPrice, ElementName=root, StringFormat=₱{0:N2}}" FontWeight="Bold" FontSize="14" LineHeight="26" TextAlignment="Left"/>
         </Grid>
         
     </Border>

@@ -30,6 +30,8 @@ namespace gentech_services.Views.UserControls
             };
         }
 
+       
+
         public static readonly DependencyProperty TextNameProperty =
             DependencyProperty.Register("TextName", typeof(string), typeof(Card));
 
@@ -49,15 +51,23 @@ namespace gentech_services.Views.UserControls
         }
 
         public static readonly DependencyProperty TextPriceProperty =
-           DependencyProperty.Register("TextPrice", typeof(string), typeof(Card));
+           DependencyProperty.Register("TextPrice", typeof(double), typeof(Card));
 
-        public string TextPrice
+        public double TextPrice
         {
-            get { return (string)GetValue(TextPriceProperty); }
+            get { return (double)GetValue(TextPriceProperty); }
             set { SetValue(TextPriceProperty, value); }
         }
 
-        
+        public static readonly DependencyProperty TextStockProperty =
+          DependencyProperty.Register("TextStock", typeof(int), typeof(Card));
+
+        public int TextStock
+        {
+            get { return (int)GetValue(TextStockProperty); }
+            set { SetValue(TextStockProperty, value); }
+        }
+
         // click event
         public static readonly RoutedEvent ClickEvent =
             EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Card));
