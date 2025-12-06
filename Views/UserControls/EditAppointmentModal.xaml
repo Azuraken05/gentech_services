@@ -91,7 +91,8 @@
                         <!-- Customer Name -->
                         <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,12">
                             <TextBlock Text="Customer Name" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <Border Background="White"
+                            <Border x:Name="CustomerNameBorder"
+                                    Background="White"
                                     BorderBrush="#DDE1E6"
                                     BorderThickness="1"
                                     CornerRadius="4"
@@ -100,14 +101,22 @@
                                          FontSize="13"
                                          Padding="8"
                                          Background="Transparent"
-                                         BorderThickness="0"/>
+                                         BorderThickness="0"
+                                         TextChanged="CustomerNameTextBox_TextChanged"/>
                             </Border>
+                            <TextBlock x:Name="CustomerNameError"
+                                       Text="Customer name is required"
+                                       FontSize="10"
+                                       Foreground="Red"
+                                       Margin="4,2,0,0"
+                                       Visibility="Collapsed"/>
                         </StackPanel>
 
                         <!-- Email -->
                         <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,0,12">
                             <TextBlock Text="Email" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <Border Background="White"
+                            <Border x:Name="EmailBorder"
+                                    Background="White"
                                     BorderBrush="#DDE1E6"
                                     BorderThickness="1"
                                     CornerRadius="4"
@@ -116,14 +125,22 @@
                                          FontSize="13"
                                          Padding="8"
                                          Background="Transparent"
-                                         BorderThickness="0"/>
+                                         BorderThickness="0"
+                                         TextChanged="EmailTextBox_TextChanged"/>
                             </Border>
+                            <TextBlock x:Name="EmailError"
+                                       Text="Please enter a valid email address"
+                                       FontSize="10"
+                                       Foreground="Red"
+                                       Margin="4,2,0,0"
+                                       Visibility="Collapsed"/>
                         </StackPanel>
 
                         <!-- Phone -->
                         <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,12">
                             <TextBlock Text="Phone" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <Border Background="White"
+                            <Border x:Name="PhoneBorder"
+                                    Background="White"
                                     BorderBrush="#DDE1E6"
                                     BorderThickness="1"
                                     CornerRadius="4"
@@ -132,14 +149,22 @@
                                          FontSize="13"
                                          Padding="8"
                                          Background="Transparent"
-                                         BorderThickness="0"/>
+                                         BorderThickness="0"
+                                         TextChanged="PhoneTextBox_TextChanged"/>
                             </Border>
+                            <TextBlock x:Name="PhoneError"
+                                       Text="Please enter a valid phone number (10-11 digits)"
+                                       FontSize="10"
+                                       Foreground="Red"
+                                       Margin="4,2,0,0"
+                                       Visibility="Collapsed"/>
                         </StackPanel>
 
                         <!-- Appointment Date -->
                         <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,0,12">
                             <TextBlock Text="Appointment Date" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <Border Background="White"
+                            <Border x:Name="AppointmentDateBorder"
+                                    Background="White"
                                     BorderBrush="#DDE1E6"
                                     BorderThickness="1"
                                     CornerRadius="4"
@@ -148,8 +173,15 @@
                                             FontSize="13"
                                             Padding="8"
                                             Background="Transparent"
-                                            BorderThickness="0"/>
+                                            BorderThickness="0"
+                                            SelectedDateChanged="AppointmentDatePicker_SelectedDateChanged"/>
                             </Border>
+                            <TextBlock x:Name="AppointmentDateError"
+                                       Text="Appointment date is required"
+                                       FontSize="10"
+                                       Foreground="Red"
+                                       Margin="4,2,0,0"
+                                       Visibility="Collapsed"/>
                         </StackPanel>
 
                         <!-- Issue Description -->

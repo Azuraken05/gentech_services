@@ -14,8 +14,7 @@
             <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <control:Sidebar/>
-        <pages:ProductManagementPage Grid.Column="1" Margin="80,64"
-                                     Grid.ColumnSpan="4" MaxWidth="1000"/>
+        <control:Sidebar x:Name="MainSidebar" NavigationRequested="Sidebar_NavigationRequested"/>
+        <ContentControl x:Name="MainContentFrame" Grid.Column="1"/>
     </Grid>
 </Window>

@@ -114,9 +114,10 @@ namespace gentech_services.Views.UserControls
             OrderIdText.Text = $"#S{firstOrder.SaleID:000}";
             CreatedDateText.Text = $"Created: {firstOrder.AppointmentDate:MM/dd/yyyy}";
 
-            // Set status badge using first order's status
-            StatusText.Text = firstOrder.Status;
-            SetStatusBadgeColor(firstOrder.Status);
+            // Calculate overall status using priority logic
+            string overallStatus = GetOverallStatus(orders);
+            StatusText.Text = overallStatus;
+            SetStatusBadgeColor(overallStatus);
 
             // Customer details from first order
             if (firstOrder.Customer != null)
@@ -204,6 +205,30 @@ namespace gentech_services.Views.UserControls
 
             // Show the modal
             ModalOverlay.Visibility = Visibility.Visible;
+        }
+
+        private string GetOverallStatus(System.Collections.Generic.List<ServiceOrder> orders)
+        {
+            if (orders == null || orders.Count == 0) return "Pending";
+
+            // Priority 1: If ANY service is Pending
+            if (orders.Any(o => o.Status?.ToLower() == "pending"))
+                return "Pending";
+
+            // Priority 2: If ANY service is Ongoing
+            if (orders.Any(o => o.Status?.ToLower() == "ongoing"))
+                return "Ongoing";
+
+            // Priority 3: If ALL services are Completed
+            if (orders.All(o => o.Status?.ToLower() == "completed"))
+                return "Completed";
+
+            // Priority 4: If ALL services are Cancelled
+            if (orders.All(o => o.Status?.ToLower() == "cancelled"))
+                return "Cancelled";
+
+            // Default fallback
+            return orders.First()?.Status ?? "Pending";
         }
 
         private void SetStatusBadgeColor(string status)

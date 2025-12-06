@@ -1,8 +1,10 @@
 using gentech_services.Models;
 using ProductServicesManagementSystem.Models;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace gentech_services.Views.UserControls
 {
@@ -39,6 +41,9 @@ namespace gentech_services.Views.UserControls
             // Set issue description
             IssueDescriptionTextBox.Text = order.Service?.Description ?? "";
 
+            // Clear any validation errors
+            ClearAllValidationErrors();
+
             // Show the modal
             ModalOverlay.Visibility = Visibility.Visible;
         }
@@ -56,7 +61,7 @@ namespace gentech_services.Views.UserControls
             // Update customer information
             if (currentOrder.Customer != null)
             {
-                var fullName = CustomerNameTextBox.Text.Trim().Split(' ');
+                var fullName = CustomerNameTextBox.Text.Trim().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (fullName.Length >= 2)
                 {
                     currentOrder.Customer.FirstName = fullName[0];
@@ -65,6 +70,7 @@ namespace gentech_services.Views.UserControls
                 else if (fullName.Length == 1)
                 {
                     currentOrder.Customer.FirstName = fullName[0];
+                    currentOrder.Customer.LastName = "";
                 }
 
                 currentOrder.Customer.Email = EmailTextBox.Text.Trim();
@@ -80,65 +86,84 @@ namespace gentech_services.Views.UserControls
             // Update issue description
             if (currentOrder.Service != null)
             {
-                currentOrder.Service.Description = IssueDescriptionTextBox.Text;
+                currentOrder.Service.Description = IssueDescriptionTextBox.Text.Trim();
             }
 
-            // Notify parent
+            // Notify parent to refresh the UI
             OnSaveChanges?.Invoke(currentOrder);
 
-            MessageBox.Show("Appointment information updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             CloseModal();
         }
 
         private bool ValidateForm()
         {
+            bool isValid = true;
+
+            // Clear all errors first
+            ClearAllValidationErrors();
+
             // Validate customer name
             if (string.IsNullOrWhiteSpace(CustomerNameTextBox.Text))
             {
-                MessageBox.Show("Customer name is required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                CustomerNameTextBox.Focus();
-                return false;
+                ShowValidationError(CustomerNameBorder, CustomerNameError, "Customer name is required");
+                isValid = false;
             }
 
             // Validate email
             if (string.IsNullOrWhiteSpace(EmailTextBox.Text))
             {
-                MessageBox.Show("Email is required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                EmailTextBox.Focus();
-                return false;
+                ShowValidationError(EmailBorder, EmailError, "Email is required");
+                isValid = false;
             }
-
-            if (!IsValidEmail(EmailTextBox.Text.Trim()))
+            else if (!IsValidEmail(EmailTextBox.Text.Trim()))
             {
-                MessageBox.Show("Please enter a valid email address.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                EmailTextBox.Focus();
-                return false;
+                ShowValidationError(EmailBorder, EmailError, "Please enter a valid email address");
+                isValid = false;
             }
 
             // Validate phone
             if (string.IsNullOrWhiteSpace(PhoneTextBox.Text))
             {
-                MessageBox.Show("Phone number is required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                PhoneTextBox.Focus();
-                return false;
+                ShowValidationError(PhoneBorder, PhoneError, "Phone number is required");
+                isValid = false;
             }
-
-            if (!IsValidPhone(PhoneTextBox.Text.Trim()))
+            else if (!IsValidPhone(PhoneTextBox.Text.Trim()))
             {
-                MessageBox.Show("Please enter a valid phone number (10-11 digits).", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                PhoneTextBox.Focus();
-                return false;
+                ShowValidationError(PhoneBorder, PhoneError, "Please enter a valid phone number (10-11 digits)");
+                isValid = false;
             }
 
             // Validate appointment date
             if (!AppointmentDatePicker.SelectedDate.HasValue)
             {
-                MessageBox.Show("Appointment date is required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                AppointmentDatePicker.Focus();
-                return false;
+                ShowValidationError(AppointmentDateBorder, AppointmentDateError, "Appointment date is required");
+                isValid = false;
             }
 
-            return true;
+            return isValid;
+        }
+
+        private void ShowValidationError(System.Windows.Controls.Border border, TextBlock errorLabel, string message)
+        {
+            border.BorderBrush = new SolidColorBrush(Colors.Red);
+            border.BorderThickness = new Thickness(1.5);
+            errorLabel.Text = message;
+            errorLabel.Visibility = Visibility.Visible;
+        }
+
+        private void ClearValidationError(System.Windows.Controls.Border border, TextBlock errorLabel)
+        {
+            border.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#DDE1E6"));
+            border.BorderThickness = new Thickness(1);
+            errorLabel.Visibility = Visibility.Collapsed;
+        }
+
+        private void ClearAllValidationErrors()
+        {
+            ClearValidationError(CustomerNameBorder, CustomerNameError);
+            ClearValidationError(EmailBorder, EmailError);
+            ClearValidationError(PhoneBorder, PhoneError);
+            ClearValidationError(AppointmentDateBorder, AppointmentDateError);
         }
 
         private bool IsValidEmail(string email)
@@ -160,6 +185,38 @@ namespace gentech_services.Views.UserControls
             return cleaned.Length >= 10 && cleaned.Length <= 11 && cleaned.All(char.IsDigit);
         }
 
+        private void CustomerNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(CustomerNameTextBox.Text))
+            {
+                ClearValidationError(CustomerNameBorder, CustomerNameError);
+            }
+        }
+
+        private void EmailTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(EmailTextBox.Text) && IsValidEmail(EmailTextBox.Text.Trim()))
+            {
+                ClearValidationError(EmailBorder, EmailError);
+            }
+        }
+
+        private void PhoneTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(PhoneTextBox.Text) && IsValidPhone(PhoneTextBox.Text.Trim()))
+            {
+                ClearValidationError(PhoneBorder, PhoneError);
+            }
+        }
+
+        private void AppointmentDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (AppointmentDatePicker.SelectedDate.HasValue)
+            {
+                ClearValidationError(AppointmentDateBorder, AppointmentDateError);
+            }
+        }
+
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             CloseModal();
@@ -169,6 +226,7 @@ namespace gentech_services.Views.UserControls
         {
             ModalOverlay.Visibility = Visibility.Collapsed;
             currentOrder = null;
+            ClearAllValidationErrors();
         }
     }
 }

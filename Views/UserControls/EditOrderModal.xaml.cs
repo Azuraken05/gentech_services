@@ -32,6 +32,7 @@ namespace gentech_services.Views.UserControls
         }
 
         public Action<ServiceOrder> OnSaveChanges { get; set; }
+        public Action<ServiceOrder> OnServiceAdded { get; set; }
 
         public EditOrderModal()
         {
@@ -41,6 +42,12 @@ namespace gentech_services.Views.UserControls
 
             // Subscribe to technician selection changes for auto-save
             TechnicianComboBox.SelectionChanged += TechnicianComboBox_SelectionChanged;
+
+            // Wire up select service modal callback
+            SelectServiceModalControl.OnServiceSelected = (selectedService) =>
+            {
+                AddServiceToOrder(selectedService);
+            };
         }
 
         protected void OnPropertyChanged(string propertyName)
@@ -245,6 +252,62 @@ namespace gentech_services.Views.UserControls
 
             MessageBox.Show("Services updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             CloseModal();
+        }
+
+        private void AddService_Click(object sender, RoutedEventArgs e)
+        {
+            if (availableServices == null || !availableServices.Any())
+            {
+                MessageBox.Show("No services available to add.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            // Get services that are not already in the order
+            var currentServiceIds = orderServices.Select(os => os.Service.ServiceID).ToList();
+            var unselectedServices = availableServices.Where(s => !currentServiceIds.Contains(s.ServiceID)).ToList();
+
+            if (!unselectedServices.Any())
+            {
+                MessageBox.Show("All available services are already in this order.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            // Show the select service modal
+            SelectServiceModalControl.ShowModal(unselectedServices);
+        }
+
+        private void AddServiceToOrder(Service selectedService)
+        {
+            if (selectedService == null || currentOrder == null) return;
+
+            // Create a new ServiceOrder for this service
+            var newServiceOrder = new ServiceOrder
+            {
+                SaleID = currentOrder.SaleID,
+                Service = selectedService,
+                Technician = SelectedTechnician ?? currentOrder.Technician,
+                Status = "Pending",
+                AppointmentDate = currentOrder.AppointmentDate,
+                Customer = currentOrder.Customer,
+                PaymentMethod = currentOrder.PaymentMethod
+            };
+
+            // Add to the UI list
+            orderServices.Add(new OrderServiceItem
+            {
+                Service = selectedService,
+                Status = "Pending",
+                Technician = SelectedTechnician ?? currentOrder.Technician,
+                ServiceOrder = newServiceOrder
+            });
+
+            // Update total cost
+            UpdateTotalCost();
+
+            // Notify parent to add to actual data collections
+            OnServiceAdded?.Invoke(newServiceOrder);
+
+            MessageBox.Show($"Service '{selectedService.Name}' added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
