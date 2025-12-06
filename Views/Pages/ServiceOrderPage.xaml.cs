@@ -56,6 +56,16 @@ namespace gentech_services.Views.Pages
                     viewModel.ServiceOrders.RemoveAt(index);
                     viewModel.ServiceOrders.Insert(index, updatedOrder);
                 }
+
+                // Refresh grouped orders to update the table status
+                viewModel.RefreshGroupedOrders();
+            };
+
+            // Wire up callback for when a new service is added to an appointment
+            EditOrderModal.OnServiceAdded = (newServiceOrder) =>
+            {
+                // Add to ViewModel's collections to persist the data
+                viewModel.AddServiceOrder(newServiceOrder);
             };
 
             // Wire up save changes callback for Edit Appointment Modal
@@ -68,6 +78,9 @@ namespace gentech_services.Views.Pages
                     viewModel.ServiceOrders.RemoveAt(index);
                     viewModel.ServiceOrders.Insert(index, updatedOrder);
                 }
+
+                // Refresh grouped orders to update the table
+                viewModel.RefreshGroupedOrders();
             };
 
             // Subscribe to SelectableServices collection changes

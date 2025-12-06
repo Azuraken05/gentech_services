@@ -1,4 +1,5 @@
 ﻿using gentech_services.Models;
+using gentech_services.ViewsModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -73,10 +74,10 @@ namespace gentech_services.Views.UserControls
         private void ViewMenuItem_Click(object sender, RoutedEventArgs e)
         {
             var contextMenu = FindContextMenu(sender);
-            if (contextMenu?.Tag is ServiceOrder order)
+            if (contextMenu?.Tag is GroupedServiceOrder groupedOrder && groupedOrder.Orders?.Count > 0)
             {
                 dynamic vm = DataContext;
-                vm.ViewDetailsCommand?.Execute(order);
+                vm.ViewDetailsCommand?.Execute(groupedOrder.Orders[0]);
                 contextMenu.IsOpen = false;
             }
         }
@@ -84,10 +85,10 @@ namespace gentech_services.Views.UserControls
         private void EditMenuItem_Click(object sender, RoutedEventArgs e)
         {
             var contextMenu = FindContextMenu(sender);
-            if (contextMenu?.Tag is ServiceOrder order)
+            if (contextMenu?.Tag is GroupedServiceOrder groupedOrder && groupedOrder.Orders?.Count > 0)
             {
                 dynamic vm = DataContext;
-                vm.EditCommand?.Execute(order);
+                vm.EditCommand?.Execute(groupedOrder.Orders[0]);
                 contextMenu.IsOpen = false;
             }
         }
@@ -95,10 +96,10 @@ namespace gentech_services.Views.UserControls
         private void EditAppointmentMenuItem_Click(object sender, RoutedEventArgs e)
         {
             var contextMenu = FindContextMenu(sender);
-            if (contextMenu?.Tag is ServiceOrder order)
+            if (contextMenu?.Tag is GroupedServiceOrder groupedOrder && groupedOrder.Orders?.Count > 0)
             {
                 dynamic vm = DataContext;
-                vm.EditAppointmentCommand?.Execute(order);
+                vm.EditAppointmentCommand?.Execute(groupedOrder.Orders[0]);
                 contextMenu.IsOpen = false;
             }
         }

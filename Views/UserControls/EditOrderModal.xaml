@@ -146,6 +146,7 @@
                             FontSize="13"
                             Margin="0,0,12,0"
                             Cursor="Hand"
+                            Click="AddService_Click"
                             Template="{StaticResource RoundedButtonTemplate}"/>
 
                     <ComboBox x:Name="TechnicianComboBox"
@@ -205,14 +206,14 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Header="Status" Width="140">
+                                    <GridViewColumn Header="Status" Width="115">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Button x:Name="StatusButton"
-                                                        Padding="8,3"
+                                                        Padding="4,1"
                                                         BorderThickness="0"
                                                         FontWeight="SemiBold"
-                                                        FontSize="8"
+                                                        FontSize="7"
                                                         HorizontalAlignment="Left"
                                                         Cursor="Hand"
                                                         Click="StatusButton_Click"
@@ -252,16 +253,16 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Header="Action" Width="90">
+                                    <GridViewColumn Header="Action" Width="60">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Button Content="Cancel"
                                                         Background="{StaticResource CancelColor}"
                                                         Foreground="White"
-                                                        Padding="8,3"
+                                                        Padding="4,1"
                                                         BorderThickness="0"
                                                         FontWeight="SemiBold"
-                                                        FontSize="9"
+                                                        FontSize="7"
                                                         HorizontalAlignment="Left"
                                                         Cursor="Hand"
                                                         Click="CancelService_Click"
@@ -304,5 +305,8 @@
 
             </Grid>
         </Border>
+
+        <!-- Select Service Modal -->
+        <local:SelectServiceModal x:Name="SelectServiceModalControl"/>
     </Grid>
 </UserControl>

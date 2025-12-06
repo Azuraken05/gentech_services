@@ -19,9 +19,36 @@ namespace gentech_services.ViewsModels
         public int SaleID { get; set; }
         public Customer Customer { get; set; }
         public DateTime AppointmentDate { get; set; }
-        public string Status { get; set; }
         public string PaymentMethod { get; set; }
         public List<ServiceOrder> Orders { get; set; }
+
+        // Computed status based on priority: Pending > Ongoing > Completed > Cancelled
+        public string Status
+        {
+            get
+            {
+                if (Orders == null || !Orders.Any()) return "Pending";
+
+                // Priority 1: If ANY service is Pending
+                if (Orders.Any(o => o.Status?.ToLower() == "pending"))
+                    return "Pending";
+
+                // Priority 2: If ANY service is Ongoing
+                if (Orders.Any(o => o.Status?.ToLower() == "ongoing"))
+                    return "Ongoing";
+
+                // Priority 3: If ALL services are Completed
+                if (Orders.All(o => o.Status?.ToLower() == "completed"))
+                    return "Completed";
+
+                // Priority 4: If ALL services are Cancelled
+                if (Orders.All(o => o.Status?.ToLower() == "cancelled"))
+                    return "Cancelled";
+
+                // Default fallback
+                return Orders.First()?.Status ?? "Pending";
+            }
+        }
 
         public string ServicesDisplay
         {
@@ -576,15 +603,34 @@ namespace gentech_services.ViewsModels
                 SaleID = g.Key,
                 Customer = g.First().Customer,
                 AppointmentDate = g.First().AppointmentDate,
-                Status = g.First().Status,
                 PaymentMethod = g.First().PaymentMethod,
                 Orders = g.ToList()
+                // Status is computed from Orders, no need to set it
             }).OrderBy(g => g.SaleID);
 
             foreach (var group in grouped)
             {
                 groupedServiceOrders.Add(group);
             }
+        }
+
+        // Public method to refresh grouped orders (called after editing services)
+        public void RefreshGroupedOrders()
+        {
+            UpdateGroupedOrders();
+        }
+
+        // Public method to add a new service order to the collections
+        public void AddServiceOrder(ServiceOrder newServiceOrder)
+        {
+            if (newServiceOrder == null) return;
+
+            // Add to both collections to ensure it persists
+            allServiceOrders.Add(newServiceOrder);
+            serviceOrders.Add(newServiceOrder);
+
+            // Refresh grouped orders to update the table
+            UpdateGroupedOrders();
         }
 
         private bool ValidateForm()

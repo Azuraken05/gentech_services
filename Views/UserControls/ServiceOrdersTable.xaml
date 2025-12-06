@@ -175,7 +175,7 @@
                                             Background="White"
                                             BorderThickness="1"
                                          Click="KebabMenu_Click"
-                                         Tag="{Binding Orders[0]}">
+                                         Tag="{Binding}">
                                         <Button.ContextMenu>
                                             <ContextMenu HasDropShadow="True" Width="200">
                                                 <ContextMenu.Template>
