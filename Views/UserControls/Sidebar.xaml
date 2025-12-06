@@ -48,13 +48,19 @@
         </Style>
 
     </UserControl.Resources>
+    
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-    <DockPanel Background="Black" >
+        <Image Grid.Row="0" Stretch="Fill" Width="Auto" Height="105" Source="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/logo.png" Margin="40,40"></Image>
 
-
-        <Image DockPanel.Dock="Top"  Stretch="Fill" Width="Auto" Height="105" Source="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/logo.png" Margin="40,40"></Image>
-
-        <Border DockPanel.Dock="Top" Padding="20,12" Background="#33FFFFFF" CornerRadius="30" HorizontalAlignment="Center" Margin="0,0,0,100" >
+        <Border Grid.Row="1" Padding="20,12" Background="#33FFFFFF" CornerRadius="30" HorizontalAlignment="Center" Margin="0,0,0,50" >
             <Grid  DockPanel.Dock="Top" HorizontalAlignment="Center" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -76,7 +82,57 @@
         </Border>
 
 
-        <StackPanel Orientation="Vertical"  DockPanel.Dock="Top">
+        <StackPanel Grid.Row="2" Orientation="Vertical" >
+            <local:IconButton  Text="Dashboard" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/dashboard_customize.png"  Click="Dashboard_Click"  Style="{StaticResource SidebarButtonStyle}"/>
+            <local:IconButton  Text="Services" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/home_repair_service.png"  Click="Services_Click"  Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
+            <StackPanel x:Name="ServicesSubButtons" Orientation="Vertical" HorizontalAlignment="Stretch" Visibility="Visible">
+                <local:IconButton  Text="Service Management" Click="ServiceManagement_Click" Style="{StaticResource SidebarSubButtonStyle}"/>
+                <local:IconButton  Text="Service Orders"  Click="ServiceOrders_Click"  Style="{StaticResource SidebarSubButtonStyle}"/>
+            </StackPanel>
+            <local:IconButton  Text="Products" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/Product.png"  Click="Products_Click"  Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
+            <StackPanel x:Name="ProductsSubButtons" Orientation="Vertical" HorizontalAlignment="Stretch" Visibility="Visible">
+                <local:IconButton  Text="Inventory Management" Click="InventoryManagement_Click" Style="{StaticResource SidebarSubButtonStyle}"/>
+                <local:IconButton  Text="Point Of Sale"  Click="ProductOrders_Click"  Style="{StaticResource SidebarSubButtonStyle}"/>
+                <local:IconButton  Text="Product Order History"  Click="ProductOrderHistory_Click"  Style="{StaticResource SidebarSubButtonStyle}"/>
+                <local:IconButton  Text="Inventory Log" Click="InventoryLog_Click" Style="{StaticResource SidebarSubButtonStyle}" Loaded="IconButton_Loaded"/>
+            </StackPanel>
+            <local:IconButton  Text="Users" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/person.png"  Click="Users_Click"  Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" Orientation="Vertical" VerticalAlignment="Bottom" Margin="0,0,0,50" >
+            <local:IconButton  Text="Logout" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/icnLogout.png" Click="Logout_Click" Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
+
+        </StackPanel>
+    </Grid>
+     <!--
+     <DockPanel Background="Black" >
+
+
+        <Image DockPanel.Dock="Top"  Stretch="Fill" Width="Auto" Height="105" Source="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/logo.png" Margin="40,40"></Image>
+
+        <Border DockPanel.Dock="Top" Padding="20,12" Background="#33FFFFFF" CornerRadius="30" HorizontalAlignment="Center" Margin="0,0,0,50" >
+            <Grid  DockPanel.Dock="Top" HorizontalAlignment="Center" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Width="32px" Height="32px" Margin="0,0,10,0" Background="White" CornerRadius="100" BorderThickness="1" BorderBrush="White">
+                    <Ellipse>
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="pack://application:,,,/gentech_services;component/Resources/Assets/Images/profileImage.png"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </Border>
+
+                <StackPanel Grid.Column="1"  Orientation="Vertical">
+                    <TextBlock Text="Nicole Juntilla" Foreground="white" FontSize="16" Margin="0,0,0,2"/>
+                    <TextBlock Text="Technician" Foreground="white" FontSize="10"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+
+        <StackPanel Orientation="Vertical"  DockPanel.Dock="Top" >
             <local:IconButton  Text="Dashboard" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/dashboard_customize.png"  Click="Dashboard_Click"  Style="{StaticResource SidebarButtonStyle}"/>
             <local:IconButton  Text="Services" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/home_repair_service.png"  Click="Services_Click"  Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
             <StackPanel x:Name="ServicesSubButtons" Orientation="Vertical" HorizontalAlignment="Stretch" Visibility="Visible">
@@ -90,14 +146,14 @@
                 <local:IconButton  Text="Product Order History"  Click="ProductOrderHistory_Click"  Style="{StaticResource SidebarSubButtonStyle}"/>
                 <local:IconButton  Text="Inventory Log" Click="InventoryLog_Click" Style="{StaticResource SidebarSubButtonStyle}"/>
             </StackPanel>
-            <local:IconButton  Text="Users" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/Product.png"  Click="Users_Click"  Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
+            <local:IconButton  Text="Users" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/person.png"  Click="Users_Click"  Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
         </StackPanel>
 
         <StackPanel Orientation="Vertical" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,0,0,50" >
-            <local:IconButton  Text="Logout" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/account_circle.png" Click="Logout_Click" Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
+            <local:IconButton  Text="Logout" Icon="pack://application:,,,/gentech_services;component/Resources/Assets/Icons/icnLogout.png" Click="Logout_Click" Style="{StaticResource SidebarButtonStyle}" Loaded="IconButton_Loaded_1"/>
 
         </StackPanel>
     </DockPanel>
-
+    -->
 
 </UserControl>

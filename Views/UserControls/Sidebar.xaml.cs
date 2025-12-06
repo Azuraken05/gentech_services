@@ -90,6 +90,11 @@ namespace gentech_services.Views.UserControls
         {
             NavigationRequested?.Invoke(this, "Logout");
         }
+
+        private void IconButton_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
 }
